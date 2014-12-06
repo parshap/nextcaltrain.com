@@ -10,6 +10,7 @@ function generate(scriptStream) {
   fs.createReadStream(__dirname + "/template.html").pipe(tr);
   // Inject script
   scriptStream.pipe(tr.select("#script").createWriteStream());
+  scriptStream.on("error", tr.emit.bind(tr, "error"));
   return tr;
 }
 
