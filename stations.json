@@ -1,0 +1,258 @@
+[
+  {
+    "id": "ctsf",
+    "names": [
+      "San Francisco",
+      "s francisco",
+      "sf"
+    ]
+  },
+  {
+    "id": "ct22",
+    "names": [
+      "22nd Street",
+      "22 Street",
+      "22"
+    ]
+  },
+  {
+    "id": "ctba",
+    "names": [
+      "Bayshore",
+      "ba"
+    ]
+  },
+  {
+    "id": "ctssf",
+    "names": [
+      "South San Francisco",
+      "So. San Francisco",
+      "So San Francisco",
+      "South SF",
+      "So. SF",
+      "So SF",
+      "sosf",
+      "ssf"
+    ]
+  },
+  {
+    "id": "ctsb",
+    "names": [
+      "San Bruno",
+      "s bruno",
+      "sb"
+    ]
+  },
+  {
+    "id": "ctmi",
+    "names": [
+      "Millbrae",
+      "mi"
+    ]
+  },
+  {
+    "id": "ctbr",
+    "names": [
+      "Broadway",
+      "br"
+    ]
+  },
+  {
+    "id": "ctbu",
+    "names": [
+      "Burlingame",
+      "bu"
+    ]
+  },
+  {
+    "id": "ctsmat",
+    "names": [
+      "San Mateo",
+      "s mateo",
+      "smat"
+    ]
+  },
+  {
+    "id": "ctha",
+    "names": [
+      "Hayward Park",
+      "hay park",
+      "h park",
+      "ha"
+    ]
+  },
+  {
+    "id": "cthi",
+    "names": [
+      "Hillsdale",
+      "hi"
+    ]
+  },
+  {
+    "id": "ctbe",
+    "names": [
+      "Belmont",
+      "be"
+    ]
+  },
+  {
+    "id": "ctsc",
+    "names": [
+      "San Carlos",
+      "s carlos",
+      "sc"
+    ]
+  },
+  {
+    "id": "ctrwc",
+    "names": [
+      "Redwood City",
+      "red city",
+      "r city",
+      "rc",
+      "rwc"
+    ]
+  },
+  {
+    "id": "ctat",
+    "names": [
+      "Atherton",
+      "at"
+    ]
+  },
+  {
+    "id": "ctmp",
+    "names": [
+      "Menlo Park",
+      "m park",
+      "men park",
+      "mp"
+    ]
+  },
+  {
+    "id": "ctpa",
+    "names": [
+      "Palo Alto",
+      "p alto",
+      "pal alto",
+      "pw"
+    ]
+  },
+  {
+    "id": "ctca",
+    "names": [
+      "California Avenue",
+      "cal avenue",
+      "cali avenue",
+      "c avenue",
+      "ca avenue",
+      "ca"
+    ]
+  },
+  {
+    "id": "ctsa",
+    "names": [
+      "San Antonio",
+      "s antonio",
+      "sa"
+    ]
+  },
+  {
+    "id": "ctmv",
+    "names": [
+      "Mountain View",
+      "mt view",
+      "m view",
+      "mw"
+    ]
+  },
+  {
+    "id": "ctsu",
+    "names": [
+      "Sunnyvale",
+      "su"
+    ]
+  },
+  {
+    "id": "ctla",
+    "names": [
+      "Lawrence",
+      "la"
+    ]
+  },
+  {
+    "id": "ctscl",
+    "names": [
+      "Santa Clara",
+      "s clara",
+      "scl"
+    ]
+  },
+  {
+    "id": "ctco",
+    "names": [
+      "College Park",
+      "col park",
+      "coll park",
+      "c park",
+      "co"
+    ]
+  },
+  {
+    "id": "ctsj",
+    "names": [
+      "San Jose",
+      "s jose",
+      "sj"
+    ]
+  },
+  {
+    "id": "ctta",
+    "names": [
+      "Tamien",
+      "ta"
+    ]
+  },
+  {
+    "id": "ctcap",
+    "names": [
+      "Capitol",
+      "cap"
+    ]
+  },
+  {
+    "id": "ctbl",
+    "names": [
+      "Blossom Hill",
+      "blos hill",
+      "bloss hill",
+      "b hill",
+      "bl"
+    ]
+  },
+  {
+    "id": "ctmh",
+    "names": [
+      "Morgan Hill",
+      "mor hill",
+      "m hill",
+      "mg hill",
+      "mh"
+    ]
+  },
+  {
+    "id": "ctsmar",
+    "names": [
+      "San Martin",
+      "s martin",
+      "smar"
+    ]
+  },
+  {
+    "id": "ctgi",
+    "names": [
+      "Gilroy",
+      "gi"
+    ]
+  }
+]
