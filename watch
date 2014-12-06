@@ -1,9 +1,24 @@
 #!/usr/bin/env node
 "use strict";
 
+var OUTPUT_PATH = "index.html";
+var BS = 0x08;
+
 var fs = require("fs");
 
+function bs() {
+  process.stdout.write(new Buffer([BS]));
+}
+
 require("./generate").watch().on("data", function(stream) {
-  process.stdout.write(".");
-  stream.pipe(fs.createWriteStream("index.html"));
+  process.stdout.write("-");
+  stream.pipe(fs.createWriteStream(OUTPUT_PATH)).on("finish", function() {
+    bs();
+    process.stdout.write(".");
+  });
+  stream.on("error", function(err) {
+    fs.writeFile("index.html", "<pre>" + err.stack + "</pre>");
+    bs();
+    process.stdout.write("!");
+  });
 });
