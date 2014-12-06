@@ -1,0 +1,18 @@
+#!/usr/bin/env node
+"use strict";
+
+var xtend = require("xtend");
+var disc = require("disc");
+var scripts = require("./scripts");
+
+var opts = {
+  fullPaths: true,
+    env: xtend(process.env, {
+    NODE_ENV: "production",
+  }),
+};
+
+scripts(opts)
+  .bundle()
+  .pipe(disc())
+  .pipe(process.stdout);
