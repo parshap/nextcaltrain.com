@@ -24,6 +24,7 @@
   "dependencies": {
     "browserify": "^7.0.0",
     "caltrain-schedule": "^1.0.0",
+    "chokidar": "^0.9.0",
     "disc": "^1.3.0",
     "envify": "^3.2.0",
     "react": "^0.12.1",

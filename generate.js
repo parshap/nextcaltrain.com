@@ -3,6 +3,7 @@
 var fs = require("fs");
 var trumpet = require("trumpet");
 var through = require("through2");
+var chokidar = require("chokidar");
 var scripts = require("./scripts");
 
 function generate(scriptStream) {
@@ -15,6 +16,13 @@ function generate(scriptStream) {
   scriptStream.pipe(tr.select("script").createWriteStream());
   scriptStream.on("error", tr.emit.bind(tr, "error"));
   return tr;
+}
+
+function watchSource(fn) {
+  chokidar.watch([
+    __dirname + "/template.html",
+    __dirname + "/styles.css",
+  ]).on("change", fn);
 }
 
 module.exports = function() {
@@ -30,6 +38,7 @@ module.exports.watch = function() {
   var output = through.obj();
   var script = scripts.watch();
   script.on("update", emit);
+  watchSource(emit);
   emit();
   return output;
 };
