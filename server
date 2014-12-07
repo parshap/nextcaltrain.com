@@ -1,0 +1,43 @@
+#!/usr/bin/env node
+"use strict";
+
+var http = require("http");
+var getport = require("getport");
+var buffer = require("stream-buffer");
+
+function handle(req, res) {
+  if (req.url === "/") {
+    res.setHeader("Content-Type", stream.type + "; charset=UTF-8");
+    stream.replay(res);
+  }
+  else {
+    send404(req, res);
+  }
+}
+
+function send404(req, res) {
+  res.statusCode = 404;
+  res.end("Not found.");
+}
+
+var stream;
+require("./generate").watch().on("data", function(s) {
+  stream = s.pipe(buffer());
+  stream.type = "text/html";
+  s.on("error", function(err) {
+    console.error(err.stack);
+    stream = buffer();
+    stream.type = "text/plan";
+    stream.end(err.stack);
+  });
+});
+
+var server = http.createServer(handle);
+
+getport(function(err, port) {
+  if (err) {
+    throw err;
+  }
+  server.listen(port);
+  console.log("Listening on port", port);
+});
