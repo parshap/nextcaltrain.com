@@ -29,6 +29,11 @@ var UI = React.createClass({
         this.getNextStop(),
         this.getNextStop(),
         this.getNextStop(),
+        this.getNextStop(),
+        this.getNextStop(),
+        this.getNextStop(),
+        this.getNextStop(),
+        this.getNextStop(),
       ];
     }
     else {
@@ -46,25 +51,24 @@ var UI = React.createClass({
   },
 
   render: function() {
-    return el("div", null, [
-      el("h1", null, [
-        "next",
-        el("span", {
+    return el("article", {
+      style: {
+        "margin": ".5rem",
+        "font-size": "16px",
+        "font-family": "sans-serif",
+      },
+      children: [
+        el(RouteSelector, {
           style: {
-            color: CALTRAIN_RED,
+            margin: "1.5rem 0",
           },
-          children: "caltrain.com",
-        }),
-      ]),
-      el(RouteSelector, {
-        route: {
           to: this.state.to,
           from: this.state.from,
-        },
-        onChange: this.handleRouteChange,
-      }),
-      this.renderSchedule(),
-    ]);
+          onChange: this.handleRouteChange,
+        }),
+        this.renderSchedule(),
+      ],
+    });
   },
 
   renderSchedule: function() {

@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/parshap/nextcaltrain.com",
   "dependencies": {
+    "array-find": "^0.1.1",
     "browserify": "^7.0.0",
     "caltrain-schedule": "^1.0.0",
     "chokidar": "^0.9.0",

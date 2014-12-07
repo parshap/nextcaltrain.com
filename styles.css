@@ -19,10 +19,25 @@
  *
  */
 
+.board-font {
+  font-family: "Lucida Sans Typewriter","Lucida Console",monaco,"Bitstream Vera Sans Mono",monospace;
+  line-height: 100%;
+}
+
+.board-size {
+  font-size: 1.8rem;
+}
+
 /*
  * ## misc.
  *
  */
+
 body {
-  background: #333;
+  background: #111;
+  color: #f5f5f5;
+}
+
+.dim {
+  opacity: 0.80;
 }
