@@ -25,6 +25,7 @@
     "browserify": "^7.0.0",
     "caltrain-schedule": "^1.0.0",
     "chokidar": "^0.9.0",
+    "clean-css": "^2.2.20",
     "disc": "^1.3.0",
     "envify": "^3.2.0",
     "getport": "^0.1.0",

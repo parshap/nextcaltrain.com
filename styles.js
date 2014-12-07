@@ -5,6 +5,7 @@ var through = require("through2");
 var rework = require('rework');
 var reworknpm = require('rework-npm');
 var myth = require("myth");
+var CleanCSS = require("clean-css");
 
 module.exports = function() {
   var output = through();
@@ -17,9 +18,13 @@ module.exports = function() {
       root: __dirname,
     }));
     styles.use(myth());
-    output.push(styles.toString({
+    var compiled = styles.toString({
       sourcemap: true,
-    }));
+    });
+    if (process.env.NODE_ENV === "production") {
+      compiled = new CleanCSS().minify(compiled);
+    }
+    output.push(compiled);
     output.push(null);
   });
   return output;
