@@ -8,8 +8,11 @@ var scripts = require("./scripts");
 function generate(scriptStream) {
   var tr = trumpet();
   fs.createReadStream(__dirname + "/template.html").pipe(tr);
+  // Inject css
+  fs.createReadStream(__dirname + "/styles.css")
+    .pipe(tr.select("style").createWriteStream());
   // Inject script
-  scriptStream.pipe(tr.select("#script").createWriteStream());
+  scriptStream.pipe(tr.select("script").createWriteStream());
   scriptStream.on("error", tr.emit.bind(tr, "error"));
   return tr;
 }
@@ -20,7 +23,8 @@ module.exports = function() {
 
 module.exports.watch = function() {
   function emit() {
-    output.push(generate(script.bundle()));
+    var scripts = script.bundle();
+    output.push(generate(scripts));
   }
 
   var output = through.obj();
