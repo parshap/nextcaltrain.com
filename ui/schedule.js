@@ -336,27 +336,33 @@ var ScheduledTripHeader = React.createClass({
           className: [
             "board-font",
           ].join(" "),
+          style: {
+            "display": "table",
+            "width": "100%",
+          },
           children: [
             ScheduledTripTrainInfo({
+              style: {
+                "display": "table-cell",
+              },
               scheduledTrip: this.props.scheduledTrip,
             }),
-            renderBoardTrainTypePadding({
-              scheduledTrip: this.props.scheduledTrip,
+            el("div", {
+              style: {
+                "display": "table-cell",
+                "text-align": "right",
+              },
+              children: [
+                el("span", {
+                  className: "dim",
+                  children: "Duration:",
+                }),
+                " ",
+                renderBoardDuration({
+                  duration: lastStop.date - firstStop.date
+                }),
+              ],
             }),
-            " ",
-            el("span", {
-              className: "dim",
-              children: "Duration:",
-            }),
-            " ",
-            renderBoardDuration({
-              duration: lastStop.date - firstStop.date
-            }),
-            /*
-            ", ",
-            (numStops - 1),
-            " stops",
-             */
           ],
         }),
       ],
@@ -374,17 +380,32 @@ var ScheduledTripTimes = React.createClass({
         "board-font",
         "board-size",
       ].join(" "),
+      style: {
+        display: "table",
+        "width": "100%",
+      },
       children: [
         renderBoardTime({
+          style: {
+            display: "table-cell",
+            "width": "50%",
+          },
           date: firstStop.date,
         }),
         el("span", {
           style: {
             "margin": "0 0.5em",
+            "text-align": "center",
+            display: "table-cell",
           },
           children: "–",
         }),
         renderBoardTime({
+          style: {
+            display: "table-cell",
+            "text-align": "right",
+            "width": "50%",
+          },
           date: lastStop.date,
         }),
       ],
