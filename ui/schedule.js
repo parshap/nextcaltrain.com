@@ -140,6 +140,7 @@ function renderBoardTrainTypePadding(props) {
   var trainType = props.scheduledTrip.route.route_long_name;
   var padding = Array(8 - trainType.length).join("&nbsp;");
   return el("span", {
+    "aria-hidden": true,
     dangerouslySetInnerHTML: {
       __html: padding,
     },
@@ -337,6 +338,9 @@ var ScheduledTripHeader = React.createClass({
           ].join(" "),
           children: [
             ScheduledTripTrainInfo({
+              scheduledTrip: this.props.scheduledTrip,
+            }),
+            renderBoardTrainTypePadding({
               scheduledTrip: this.props.scheduledTrip,
             }),
             " ",
