@@ -211,9 +211,8 @@ var ScheduledTrip = React.createClass({
     var lastStop = getLastStop(scheduledTrip);
     return el("article", {
       style: xtend({
-        "padding": "1.5rem 0",
+        "padding": "1.5rem 1rem",
         "border-top": "1px solid " + DIM_COLOR,
-        "display": "table",
       }, this.props.style),
       children: [
         ScheduledTripHeader({

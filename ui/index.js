@@ -53,14 +53,14 @@ var UI = React.createClass({
   render: function() {
     return el("article", {
       style: {
-        "margin": ".5rem",
         "font-size": "16px",
+        "max-width": "20rem",
         "font-family": "sans-serif",
       },
       children: [
         el(RouteSelector, {
           style: {
-            margin: "1.5rem 0",
+            margin: "1.5rem 1rem",
           },
           to: this.state.to,
           from: this.state.from,
