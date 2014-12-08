@@ -1,290 +1,126 @@
 [
   {
     "id": "ctsf",
-    "name": "San Francisco",
-    "aliases": [
-      "San Francisco",
-      "s francisco",
-      "sf"
-    ]
+    "name": "San Francisco"
   },
   {
     "id": "ct22",
-    "name": "22nd Street",
-    "aliases": [
-      "22nd Street",
-      "22 Street",
-      "22"
-    ]
+    "name": "22nd Street"
   },
   {
     "id": "ctba",
-    "name": "Bayshore",
-    "aliases": [
-      "Bayshore",
-      "ba"
-    ]
+    "name": "Bayshore"
   },
   {
     "id": "ctssf",
-    "name": "South SF",
-    "aliases": [
-      "South San Francisco",
-      "So. San Francisco",
-      "So San Francisco",
-      "South SF",
-      "So. SF",
-      "So SF",
-      "sosf",
-      "ssf"
-    ]
+    "name": "South SF"
   },
   {
     "id": "ctsb",
-    "name": "San Bruno",
-    "aliases": [
-      "San Bruno",
-      "s bruno",
-      "sb"
-    ]
+    "name": "San Bruno"
   },
   {
     "id": "ctmi",
-    "name": "Millbrae",
-    "aliases": [
-      "Millbrae",
-      "mi"
-    ]
+    "name": "Millbrae"
   },
   {
     "id": "ctbr",
-    "name": "Broadway",
-    "aliases": [
-      "Broadway",
-      "br"
-    ]
+    "name": "Broadway"
   },
   {
     "id": "ctbu",
-    "name": "Burlingame",
-    "aliases": [
-      "Burlingame",
-      "bu"
-    ]
+    "name": "Burlingame"
   },
   {
     "id": "ctsmat",
-    "name": "San Mateo",
-    "aliases": [
-      "San Mateo",
-      "s mateo",
-      "smat"
-    ]
+    "name": "San Mateo"
   },
   {
     "id": "ctha",
-    "name": "Hayward Park",
-    "aliases": [
-      "Hayward Park",
-      "hay park",
-      "h park",
-      "ha"
-    ]
+    "name": "Hayward Park"
   },
   {
     "id": "cthi",
-    "name": "Hillsdale",
-    "aliases": [
-      "Hillsdale",
-      "hi"
-    ]
+    "name": "Hillsdale"
   },
   {
     "id": "ctbe",
-    "name": "Belmont",
-    "aliases": [
-      "Belmont",
-      "be"
-    ]
+    "name": "Belmont"
   },
   {
     "id": "ctsc",
-    "name": "San Carlos",
-    "aliases": [
-      "San Carlos",
-      "s carlos",
-      "sc"
-    ]
+    "name": "San Carlos"
   },
   {
     "id": "ctrwc",
-    "name": "Redwood City",
-    "aliases": [
-      "Redwood City",
-      "red city",
-      "r city",
-      "rc",
-      "rwc"
-    ]
+    "name": "Redwood City"
   },
   {
     "id": "ctat",
-    "name": "Atherton",
-    "aliases": [
-      "Atherton",
-      "at"
-    ]
+    "name": "Atherton"
   },
   {
     "id": "ctmp",
-    "name": "Menlo Park",
-    "aliases": [
-      "Menlo Park",
-      "m park",
-      "men park",
-      "mp"
-    ]
+    "name": "Menlo Park"
   },
   {
     "id": "ctpa",
-    "name": "Palo Alto",
-    "aliases": [
-      "Palo Alto",
-      "p alto",
-      "pal alto",
-      "pw"
-    ]
+    "name": "Palo Alto"
   },
   {
     "id": "ctca",
-    "name": "California Ave",
-    "aliases": [
-      "California Avenue",
-      "California Ave",
-      "cal avenue",
-      "cali avenue",
-      "c avenue",
-      "ca avenue",
-      "ca"
-    ]
+    "name": "California Ave"
   },
   {
     "id": "ctsa",
-    "name": "San Antonio",
-    "aliases": [
-      "San Antonio",
-      "s antonio",
-      "sa"
-    ]
+    "name": "San Antonio"
   },
   {
     "id": "ctmv",
-    "name": "Mountain View",
-    "aliases": [
-      "Mountain View",
-      "mt view",
-      "m view",
-      "mw"
-    ]
+    "name": "Mountain View"
   },
   {
     "id": "ctsu",
-    "name": "Sunnyvale",
-    "aliases": [
-      "Sunnyvale",
-      "su"
-    ]
+    "name": "Sunnyvale"
   },
   {
     "id": "ctla",
-    "name": "Lawrence",
-    "aliases": [
-      "Lawrence",
-      "la"
-    ]
+    "name": "Lawrence"
   },
   {
     "id": "ctscl",
-    "name": "Santa Clara",
-    "aliases": [
-      "Santa Clara",
-      "s clara",
-      "scl"
-    ]
+    "name": "Santa Clara"
   },
   {
     "id": "ctco",
-    "name": "College Park",
-    "aliases": [
-      "College Park",
-      "col park",
-      "coll park",
-      "c park",
-      "co"
-    ]
+    "name": "College Park"
   },
   {
     "id": "ctsj",
-    "name": "San Jose",
-    "aliases": [
-      "San Jose",
-      "s jose",
-      "sj"
-    ]
+    "name": "San Jose"
   },
   {
     "id": "ctta",
-    "name": "Tamien",
-    "aliases": [
-      "Tamien",
-      "ta"
-    ]
+    "name": "Tamien"
   },
   {
     "id": "ctcap",
-    "name": "Capitol",
-    "aliases": [
-      "Capitol",
-      "cap"
-    ]
+    "name": "Capitol"
   },
   {
     "id": "ctbl",
-    "name": "Blossom Hill",
-    "aliases": [
-      "Blossom Hill",
-      "blos hill",
-      "bloss hill",
-      "b hill",
-      "bl"
-    ]
+    "name": "Blossom Hill"
   },
   {
     "id": "ctmh",
-    "name": "Morgan Hill",
-    "aliases": [
-      "Morgan Hill",
-      "mor hill",
-      "m hill",
-      "mg hill",
-      "mh"
-    ]
+    "name": "Morgan Hill"
   },
   {
     "id": "ctsmar",
-    "name": "San Martin",
-    "aliases": [
-      "San Martin",
-      "s martin",
-      "smar"
-    ]
+    "name": "San Martin"
   },
   {
     "id": "ctgi",
-    "name": "Gilroy",
-    "aliases": [
-      "Gilroy",
-      "gi"
-    ]
+    "name": "Gilroy"
   }
 ]
