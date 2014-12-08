@@ -10,7 +10,7 @@ function bs() {
   process.stdout.write(new Buffer([BS]));
 }
 
-require("./generate").watch().on("data", function(stream) {
+require("./generate.js").watch().on("data", function(stream) {
   process.stdout.write("-");
   stream.pipe(fs.createWriteStream(OUTPUT_PATH)).on("finish", function() {
     bs();

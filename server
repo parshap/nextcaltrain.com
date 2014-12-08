@@ -21,7 +21,7 @@ function send404(req, res) {
 }
 
 var stream;
-require("./generate").watch().on("data", function(s) {
+require("./generate.js").watch().on("data", function(s) {
   stream = s.pipe(buffer());
   stream.type = "text/html";
   s.on("error", function(err) {
