@@ -71,6 +71,7 @@ var Dropdown = React.createClass({
       onChange: this.props.onChange,
       onFocus: this.handleFocus,
       onBlur: this.handleBlur,
+      value: this.props.value,
     });
   },
 
