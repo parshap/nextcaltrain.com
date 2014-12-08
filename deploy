@@ -1,0 +1,21 @@
+#!/bin/bash
+
+day=$(expr 60 \* 60 \* 24)
+week=$(expr $day \* 7)
+year=$(expr $day \* 365)
+
+# upload NAME TYPE MAXAGE
+upload() {
+	gzip -c |
+		aws s3 cp - \
+			s3://nextcaltrain.com/$1 \
+			--region us-east-1 \
+			--acl public-read \
+			--content-type "$2" \
+			--content-encoding gzip \
+			--cache-control "max-age=$3, public" \
+			--content-language en
+}
+
+./generate | upload index.html "text/html; charset=utf-8" $day
+cat error.html | upload error.html "text/html; charset=utf-8" $year
