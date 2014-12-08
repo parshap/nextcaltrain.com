@@ -4,6 +4,7 @@
   "description": "Caltrain schedule web application",
   "main": "index.js",
   "scripts": {
+    "start": "./server",
     "test": "node test.js"
   },
   "repository": {
