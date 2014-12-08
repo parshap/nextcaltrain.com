@@ -1,16 +1,10 @@
 "use strict";
 
-var find = require("array-find");
 var xtend = require("xtend");
 var React = require("react");
 var el = React.createElement;
 var stations = require("../stations.json");
-
-function getStation(id) {
-  return find(stations, function(station) {
-    return id === station.id;
-  });
-}
+var getStation = require("../get-station");
 
 // ## Dropdown
 //
