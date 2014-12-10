@@ -2,7 +2,7 @@
 
 var React = require("react");
 var el = React.createElement;
-var caltrain = require("caltrain-schedule");
+var caltrain = require("nextcaltrain");
 var RouteSelector = require("./route-selector");
 var Schedule = require("./schedule");
 var hash = require("hash-change");
