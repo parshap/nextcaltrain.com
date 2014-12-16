@@ -114,14 +114,14 @@ var Dropdown = React.createClass({
 
 module.exports = React.createClass({
   getFromName: function() {
-    var station = getStation(this.props.from);
+    var station = getStation(this.props.route.from);
     if (station) {
       return station.name;
     }
   },
 
   getToName: function() {
-    var station = getStation(this.props.to);
+    var station = getStation(this.props.route.to);
     if (station) {
       return station.name;
     }
@@ -141,7 +141,7 @@ module.exports = React.createClass({
             "margin-bottom": ".5rem",
           },
           text: this.getFromName(),
-          value: this.props.from,
+          value: this.props.route.from,
           children: this.renderOptions(),
           onChange: this.handleChange.bind(this, "from"),
         }),
@@ -149,7 +149,7 @@ module.exports = React.createClass({
           id: "to",
           label: "To",
           text: this.getToName(),
-          value: this.props.to,
+          value: this.props.route.to,
           children: this.renderOptions(),
           onChange: this.handleChange.bind(this, "to"),
         }),

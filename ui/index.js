@@ -2,117 +2,12 @@
 
 var React = require("react");
 var el = React.createElement;
-var caltrain = require("nextcaltrain");
 var RouteSelector = require("./route-selector");
 var Schedule = require("./schedule");
-var hash = require("hash-change");
-var slug = require("to-slug-case");
-var getStation = require("../get-station");
 
-function getHash(from, to) {
-  return [
-    slug(getStation(from).name),
-    "-to-",
-    slug(getStation(to).name),
-  ].join("");
-}
-
-function getRoute() {
-  var route = parseHash(window.location.hash);
-  if (route) {
-    return route;
-  }
-  return {
-    from: window.localStorage.getItem("from") || "ctsf",
-    to: window.localStorage.getItem("to") || "ctsj",
-  };
-}
-
-function parseHash(hash) {
-  var parts = hash.slice(1).split("-to-", 2);
-  var from = getStation(function(station) {
-    return slug(station.name) === parts[0];
-  });
-  var to = getStation(function(station) {
-    return slug(station.name) === parts[1];
-  });
-  if (from && to) {
-    return {
-      from: from.id,
-      to: to.id,
-    };
-  }
-}
-
-function isSameRoute(route1, route2) {
-  return route1.to === route2.to &&
-    route1.from === route2.from;
-}
-
-var CALTRAIN_RED = "#e22a2a";
+// var CALTRAIN_RED = "#e22a2a";
 
 var UI = React.createClass({
-  setHash: function(state) {
-    if (state.to && state.from && state.to !== state.from) {
-      window.location.hash = getHash(state.from, state.to);
-    }
-    else {
-      window.location.hash = "";
-    }
-  },
-
-  getInitialState: function() {
-    return getRoute();
-  },
-
-  updateSchedule: function(state) {
-    this.setHash(state);
-    if (state.to && state.from && state.to !== state.from) {
-      this.getNextStop = caltrain({
-        from: state.from,
-        to: state.to,
-        date: new Date(),
-      });
-      this.schedule = [
-        this.getNextStop(),
-        this.getNextStop(),
-        this.getNextStop(),
-        this.getNextStop(),
-        this.getNextStop(),
-        this.getNextStop(),
-        this.getNextStop(),
-        this.getNextStop(),
-        this.getNextStop(),
-        this.getNextStop(),
-      ];
-    }
-    else {
-      this.getNextStop = null;
-      this.schedule = null;
-    }
-  },
-
-  componentWillMount: function() {
-    this.updateSchedule(this.state);
-  },
-
-  componentDidMount: function() {
-    hash.on("change", function() {
-      var route = parseHash(window.location.hash);
-      if ( ! route) {
-        // Invalid hash, reset it
-        this.setHash(this.state);
-      }
-      if ( ! isSameRoute(route, this.state)) {
-        this.setState(route);
-      }
-    }.bind(this));
-  },
-
-  componentWillUpdate: function(nextProps, nextState) {
-    this.updateSchedule(nextState);
-  },
-
   render: function() {
     return el("article", {
       style: {
@@ -125,9 +20,8 @@ var UI = React.createClass({
           style: {
             margin: "1.5rem 1rem",
           },
-          to: this.state.to,
-          from: this.state.from,
-          onChange: this.handleRouteChange,
+          route: this.props.state.get("route").toJS(),
+          onChange: this.props.dispatch.bind(null, "change-route"),
         }),
         this.renderSchedule(),
       ],
@@ -135,26 +29,114 @@ var UI = React.createClass({
   },
 
   renderSchedule: function() {
-    if (this.schedule) {
+    var schedule = this.props.state.get("schedule");
+    if (schedule) {
       return el(Schedule, {
-        schedule: this.schedule,
+        schedule: schedule,
       });
     }
   },
-
-  handleRouteChange: function(route) {
-    var storage = this.props.storage;
-    // Save to localStorage
-    Object.keys(route).forEach(function(name) {
-      storage.setItem(name, route[name]);
-    });
-    this.setState(route);
-  },
 });
 
-React.renderComponent(
-  React.createElement(UI, {
-    storage: window.localStorage,
-  }),
-  global.document.body
-);
+// ## URL hash state
+
+var hash = require("hash-change");
+var slug = require("to-slug-case");
+var getStation = require("../get-station");
+
+function updateHash(route) {
+  if ( ! isSameRoute(getRouteFromHash(), route)) {
+    setHash(route);
+  }
+}
+
+function setHash(route) {
+  window.location.hash =  getHash(route.from, route.to);
+}
+
+function getHash(from, to) {
+  if (from && to) {
+    return [
+      slug(getStation(from).name),
+      "-to-",
+      slug(getStation(to).name),
+    ].join("");
+  }
+  else if (from) {
+    return from + "-to";
+  }
+  else if (to) {
+    return "to-" + to;
+  }
+  else {
+    return "";
+  }
+}
+
+function getRoute() {
+  var route = getRouteFromHash();
+  if (route) {
+    return route;
+  }
+  return {
+    from: window.localStorage.getItem("from") || "ctsf",
+    to: window.localStorage.getItem("to") || "ctsj",
+  };
+}
+
+function getRouteFromHash() {
+  return parseHash(window.location.hash);
+}
+
+function parseHash(hash) {
+  var parts = hash.slice(1).split(/-to-|-to|to-/, 2);
+  var from = getStation(function(station) {
+    return slug(station.name) === parts[0];
+  });
+  var to = getStation(function(station) {
+    return slug(station.name) === parts[1];
+  });
+  return {
+    from: from && from.id,
+    to: to && to.id,
+  };
+}
+
+function isSameRoute(route1, route2) {
+  return route1 === route2 ||
+    (
+      route1 &&
+      route2 &&
+      route1.to === route2.to &&
+      route1.from === route2.from
+    );
+}
+
+// ## Application state
+
+var createState = require("./state");
+
+(function() {
+  var state;
+  var dispatch = createState(function(newState) {
+    state = newState;
+    updateHash(state.get("route").toJS());
+    React.render(
+      React.createElement(UI, {
+        state: state,
+        dispatch: dispatch,
+      }),
+      global.document.body
+    );
+  });
+
+  hash.on("change", function() {
+    var route = parseHash(window.location.hash);
+    if ( ! isSameRoute(route, state.get("route"))) {
+      dispatch("change-route", route);
+    }
+  });
+
+  // Set initial route
+  dispatch("change-route", getRoute());
+})();
