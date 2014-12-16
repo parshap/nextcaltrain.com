@@ -3,6 +3,8 @@
 var Immutable = require("immutable");
 var caltrain = require("nextcaltrain");
 var deferredNextTick = require("../lib/deferred-next-tick");
+var getStation = require("../get-station");
+var mapValues = require("map-values");
 
 function createState() {
   return Immutable.fromJS({
@@ -45,14 +47,19 @@ function getSchedule(route) {
 }
 
 function applyRoute(state, route) {
-  // Save to localStorage
-  Object.keys(route).forEach(function(name) {
-    window.localStorage.setItem(name, route[name]);
-  });
-  // Update state
-  state = state.mergeIn(["route"], Immutable.fromJS(route));
-  state = state.set("schedule", getSchedule(state.get("route").toJS()));
+  route = sanitizeRoute(route);
+  route = Immutable.fromJS(route);
+  if ( ! route.equals(state.get("route"))) {
+    state = state.mergeIn(["route"], Immutable.fromJS(route));
+    state = state.set("schedule", getSchedule(state.get("route").toJS()));
+  }
   return state;
+}
+
+function sanitizeRoute(route) {
+  return mapValues(route, function(val) {
+    return getStation(val) && val;
+  });
 }
 
 module.exports = function(onChange) {

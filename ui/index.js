@@ -4,6 +4,7 @@ var React = require("react");
 var el = React.createElement;
 var RouteSelector = require("./route-selector");
 var Schedule = require("./schedule");
+var Immutable = require("immutable");
 
 // var CALTRAIN_RED = "#e22a2a";
 
@@ -44,52 +45,100 @@ var hash = require("hash-change");
 var slug = require("to-slug-case");
 var getStation = require("../get-station");
 
+function getStationSlug(stationId) {
+  return slug(getStation(stationId).name);
+}
+
 function updateHash(route) {
-  if ( ! isSameRoute(getRouteFromHash(), route)) {
+  if (getCurrentHash() !== getHash(route)) {
     setHash(route);
   }
 }
 
 function setHash(route) {
-  window.location.hash =  getHash(route.from, route.to);
+  window.location.hash = getHash(route);
 }
 
-function getHash(from, to) {
-  if (from && to) {
+function getHash(route) {
+  if (route.from && route.to) {
     return [
-      slug(getStation(from).name),
+      getStationSlug(route.from),
       "-to-",
-      slug(getStation(to).name),
+      getStationSlug(route.to),
     ].join("");
   }
-  else if (from) {
-    return from + "-to";
+  else if (route.from) {
+    return getStationSlug(route.from) + "-to";
   }
-  else if (to) {
-    return "to-" + to;
+  else if (route.to) {
+    return "to-" + getStationSlug(route.to);
   }
   else {
     return "";
   }
 }
 
-function getRoute() {
-  var route = getRouteFromHash();
-  if (route) {
-    return route;
+var INITIAL_ROUTE_SOURCES = [
+  getRouteFromHash,
+  getRouteFromStorage,
+];
+
+var DEFAULT_ROUTE = {
+  from: "ctsf",
+  to: "ctsj",
+};
+
+function getInitialRoute() {
+  var i, route;
+  for (i = 0; i < INITIAL_ROUTE_SOURCES.length; i++) {
+    route = INITIAL_ROUTE_SOURCES[i]();
+    if (hasRoute(route)) {
+      return route;
+    }
   }
+  return DEFAULT_ROUTE;
+}
+
+function getRouteFromStorage() {
   return {
-    from: window.localStorage.getItem("from") || "ctsf",
-    to: window.localStorage.getItem("to") || "ctsj",
+    from: getStorageItem("from"),
+    to: getStorageItem("to"),
   };
 }
 
+function getStorageItem(name) {
+  try {
+    return JSON.parse(window.localStorage.getItem(name));
+  }
+  catch (err) {}
+}
+
+function updateStorage(route) {
+  // Save to localStorage
+  Object.keys(route).forEach(function(name) {
+    setStorageItem(name, route[name]);
+  });
+}
+
+function setStorageItem(name, value) {
+  if (value === undefined) {
+    window.localStorage.removeItem(name);
+  }
+  else {
+    window.localStorage.setItem(name, JSON.stringify(value || null));
+  }
+}
+
 function getRouteFromHash() {
-  return parseHash(window.location.hash);
+  return parseHash(getCurrentHash());
+}
+
+function getCurrentHash() {
+  return window.location.hash.slice(1);
 }
 
 function parseHash(hash) {
-  var parts = hash.slice(1).split(/-to-|-to|to-/, 2);
+  var parts = hash.split(/-to-|-to|to-/, 2);
   var from = getStation(function(station) {
     return slug(station.name) === parts[0];
   });
@@ -102,14 +151,8 @@ function parseHash(hash) {
   };
 }
 
-function isSameRoute(route1, route2) {
-  return route1 === route2 ||
-    (
-      route1 &&
-      route2 &&
-      route1.to === route2.to &&
-      route1.from === route2.from
-    );
+function hasRoute(route) {
+  return route && (route.from || route.to);
 }
 
 // ## Application state
@@ -120,6 +163,7 @@ var createState = require("./state");
   var state;
   var dispatch = createState(function(newState) {
     state = newState;
+    updateStorage(state.get("route").toJS());
     updateHash(state.get("route").toJS());
     React.render(
       React.createElement(UI, {
@@ -131,12 +175,21 @@ var createState = require("./state");
   });
 
   hash.on("change", function() {
-    var route = parseHash(window.location.hash);
-    if ( ! isSameRoute(route, state.get("route"))) {
+    // When the url changes, we will change the current route to match what is
+    // in the new url. If the route has not changed, then we'll normalize the
+    // current url.
+    var route = getRouteFromHash();
+    var isSame = Immutable.is(state.get("route"), Immutable.fromJS(route));
+    if ( ! isSame) {
+      // Update current route
       dispatch("change-route", route);
+    }
+    else {
+      // Normalize url
+      updateHash(route);
     }
   });
 
   // Set initial route
-  dispatch("change-route", getRoute());
+  dispatch("change-route", getInitialRoute());
 })();
