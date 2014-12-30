@@ -1,43 +1,8 @@
 "use strict";
 
-var React = require("react");
-var el = React.createElement;
-var RouteSelector = require("./route-selector");
-var Schedule = require("./schedule");
 var Immutable = require("immutable");
-
-// var CALTRAIN_RED = "#e22a2a";
-
-var UI = React.createClass({
-  render: function() {
-    return el("article", {
-      style: {
-        "font-size": "16px",
-        "max-width": "20rem",
-        "font-family": "sans-serif",
-      },
-      children: [
-        el(RouteSelector, {
-          style: {
-            margin: "1.5rem 1rem",
-          },
-          route: this.props.state.get("route").toJS(),
-          onChange: this.props.dispatch.bind(null, "change-route"),
-        }),
-        this.renderSchedule(),
-      ],
-    });
-  },
-
-  renderSchedule: function() {
-    var schedule = this.props.state.get("schedule");
-    if (schedule) {
-      return el(Schedule, {
-        schedule: schedule,
-      });
-    }
-  },
-});
+var React = require("react");
+var App = require("./app");
 
 // ## URL hash state
 
@@ -166,7 +131,7 @@ var createState = require("./state");
     updateStorage(state.get("route").toJS());
     updateHash(state.get("route").toJS());
     React.render(
-      React.createElement(UI, {
+      React.createElement(App, {
         state: state,
         dispatch: dispatch,
       }),
