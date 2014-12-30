@@ -24,6 +24,23 @@ function applyAction(state, type, data) {
   return state;
 }
 
+function applyRoute(state, route) {
+  route = sanitizeRoute(route);
+  route = Immutable.fromJS(route);
+  if ( ! route.equals(state.get("route"))) {
+    state = state.mergeIn(["route"], Immutable.fromJS(route));
+    state = applySchedule(state);
+  }
+  return state;
+}
+
+function applySchedule(state) {
+  var schedule = getSchedule(state.get("route").toJS());
+  state = state.set("schedule", schedule);
+  state = state.set("selectedTrip", schedule && schedule[0]);
+  return state;
+}
+
 function getSchedule(route) {
   if (route.to && route.from && route.to !== route.from) {
     var getNextStop = caltrain({
@@ -44,16 +61,6 @@ function getSchedule(route) {
       getNextStop(),
     ];
   }
-}
-
-function applyRoute(state, route) {
-  route = sanitizeRoute(route);
-  route = Immutable.fromJS(route);
-  if ( ! route.equals(state.get("route"))) {
-    state = state.mergeIn(["route"], Immutable.fromJS(route));
-    state = state.set("schedule", getSchedule(state.get("route").toJS()));
-  }
-  return state;
 }
 
 function sanitizeRoute(route) {

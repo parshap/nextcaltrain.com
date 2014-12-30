@@ -31,7 +31,9 @@ module.exports = function() {
 
 module.exports.watch = function() {
   function emit() {
+    console.time("scripts");
     var scripts = script.bundle();
+    scripts.on("end", console.timeEnd.bind(console, "scripts"));
     output.push(generate(scripts));
   }
 
