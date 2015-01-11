@@ -21,9 +21,6 @@ module.exports = React.createClass({
         "border-right": "1px solid " + DIM_COLOR,
       },
       leftChildren: this.renderScheduleSection(),
-      rightStyle: {
-        "padding": "1rem 0 0 1rem",
-      },
       rightChildren: this.renderSelectedTrip(),
     });
   },
