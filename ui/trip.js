@@ -5,36 +5,35 @@ var xtend = require("xtend");
 var React = require("react");
 var el = React.createElement;
 var getStopName = require("./get-stop-name");
-var formatTime = require("../lib/time-utils").formatTime;
 var TripHeader = require("./trip-header");
+var renderBoardTime = require("./board-time");
 
-function rem(val) {
-  return String(val) + "rem";
-}
-
-var StopCircle = React.createClass({
+var StopMarker = React.createClass({
   render: function() {
     return el("div", {
+      className: "dim",
       "aria-hidden": true,
       style: xtend({
         "background-color": "#f5f5f5",
-        "width": rem(this.props.size),
-        "height": rem(this.props.size),
-        "border-radius": rem(this.props.size/2),
+        "width": this.props.size,
+        "height": this.props.size,
       }, this.props.style),
     });
   },
 });
 
+var MARKER_SIZE_LARGE = "0.6rem";
+var MARKER_SIZE_SMALL = "0.4rem";
+
 var TripStop = React.createClass({
   displayName: "TripStop",
 
-  getCircleSize: function() {
+  getMarkerSize: function() {
     if (this.props.isFirst || this.props.isLast) {
-      return 1.2;
+      return MARKER_SIZE_LARGE;
     }
     else {
-      return 0.8;
+      return MARKER_SIZE_SMALL;
     }
   },
 
@@ -44,22 +43,26 @@ var TripStop = React.createClass({
       style: {
         position: "relative",
         "margin": "0.3rem 0",
-        "padding-left": "1.5rem",
       },
       children: [
-        el(StopCircle, {
-          size: this.getCircleSize(),
+        el("span", {
           style: {
-            "position": "absolute",
-            "left": 0,
-            "top": "50%",
-            "margin-top": rem(-this.getCircleSize()/2)
+            "display": "inline-block",
+            width: MARKER_SIZE_LARGE,
+            "text-align": "center",
+            "margin-right": "0.5rem",
           },
+          children: el(StopMarker, {
+            size: this.getMarkerSize(),
+            style: {
+              "display": "inline-block",
+              "vertical-align": "middle",
+              "margin-top": "-0.2rem",
+            },
+          }),
         }),
-        renderTime({
-          dateTime: tripStop.date.toISOString(),
-          children: formatTime(tripStop.date),
-          title: formatTripStopTitle(tripStop),
+        renderBoardTime({
+          date: tripStop.date,
         }),
         " ",
         renderStationName({
@@ -70,35 +73,17 @@ var TripStop = React.createClass({
   },
 });
 
-function renderTime(props) {
-  return el("time", xtend({
-    style: xtend({
-      "font-weight": "bolder",
-    }, props),
-  }, props));
-}
-
 function renderStationName(props) {
   return el("span", {
     children: getStopName(props.station),
   });
 }
 
-function formatTripStopTitle(tripStop) {
-  return [
-    "Arrive: ",
-    formatTime(tripStop.date),
-    "\nDeparrt: ",
-    formatTime(tripStop.date),
-    "\nStopped for: 3 min",
-  ].join("");
-}
-
 module.exports = React.createClass({
   displayName: "ScheduledTripDetails",
 
   render: function() {
-    return el("div", {
+    return el("article", {
       style: this.props.style,
       children: [
         this.renderHeader(),
@@ -127,6 +112,7 @@ module.exports = React.createClass({
       });
     });
     return el("div", {
+      className: "board-font",
       style: {
         padding: "0 1rem",
       },
