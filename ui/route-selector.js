@@ -20,7 +20,7 @@ var SELECT_STYLE = {
 var Dropdown = React.createClass({
   getBackgroundColor: function() {
     if (this.state.focused) {
-      return "#c4c4c4";
+      return "#aaa";
     }
     else {
       return "#f5f5f5";
@@ -80,7 +80,8 @@ var Dropdown = React.createClass({
             "margin-left": ".25em",
             "background-color": this.getBackgroundColor(),
             "color": "#111",
-            "padding": "0 0.2em",
+            "padding": "0 0.25em",
+            "border-bottom": "0.25rem solid #aaa",
           },
           className: "board-font",
           children: [
@@ -138,7 +139,7 @@ module.exports = React.createClass({
           id: "from",
           label: "From",
           style: {
-            "margin-bottom": ".5rem",
+            "margin-bottom": ".8rem",
           },
           text: this.getFromName(),
           value: this.props.route.from,
