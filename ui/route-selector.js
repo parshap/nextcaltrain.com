@@ -82,6 +82,7 @@ var Dropdown = React.createClass({
             "color": "#111",
             "padding": "0 0.25em",
             "border-bottom": "0.25rem solid #aaa",
+            "white-space": "nowrap",
           },
           className: "board-font",
           children: [
