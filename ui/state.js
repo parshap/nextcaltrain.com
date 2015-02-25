@@ -21,6 +21,9 @@ function applyAction(state, type, data) {
   if (type === "change-route") {
     return applyRoute(state, data);
   }
+  else if (type === "select-trip") {
+    return applySelectTrip(state, data);
+  }
   return state;
 }
 
@@ -38,6 +41,11 @@ function applySchedule(state) {
   var schedule = getSchedule(state.get("route").toJS());
   state = state.set("schedule", schedule);
   state = state.set("selectedTrip", schedule && schedule[0]);
+  return state;
+}
+
+function applySelectTrip(state, trip) {
+  state = state.set("selectedTrip", trip);
   return state;
 }
 

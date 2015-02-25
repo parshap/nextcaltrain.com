@@ -19,12 +19,24 @@ var ScheduledTrip = React.createClass({
     return this.props.scheduledTrip.tripStops.length;
   },
 
+  getBackground: function() {
+    if (this.props.isSelected) {
+      return colors.selected;
+    }
+  },
+
   render: function() {
     var scheduledTrip = this.props.scheduledTrip;
     return el("article", {
+      onClick: this.props.onClick,
+      "tabIndex": 0,
+      "role": "radiobutton",
+      "aria-checked": this.props.isSelected,
       style: xtend({
+        "cursor": "pointer",
         "padding": "1.5rem 1rem",
         "border-top": "1px solid " + colors.dim,
+        "background": this.getBackground(),
       }, this.props.style),
       children: [
         TripHeader({
@@ -58,9 +70,16 @@ module.exports = React.createClass({
   },
 
   renderSchedule: function() {
+    var dispatch = this.props.dispatch;
+    var selectedTrip = this.props.selectedTrip;
     return this.props.schedule.map(function(scheduledTrip) {
       return ScheduledTrip({
+        isSelected: scheduledTrip === selectedTrip,
         scheduledTrip: scheduledTrip,
+        onClick: function(e) {
+          e.preventDefault();
+          dispatch("select-trip", scheduledTrip);
+        },
       });
     });
   },
