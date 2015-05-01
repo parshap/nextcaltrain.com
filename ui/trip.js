@@ -5,17 +5,16 @@ var xtend = require("xtend");
 var React = require("react");
 var el = React.createElement;
 var getStopName = require("./get-stop-name");
-var TripHeader = require("./trip-header");
 var renderBoardTime = require("./board-time");
 var DateEl = require("./date");
+var colors = require("./colors");
 
 var StopMarker = React.createClass({
   render: function() {
     return el("div", {
-      className: "dim",
       "aria-hidden": true,
       style: xtend({
-        "background-color": "#f5f5f5",
+        "background-color": colors.dim,
         "width": this.props.size,
         "height": this.props.size,
       }, this.props.style),
@@ -88,7 +87,6 @@ module.exports = React.createClass({
       style: this.props.style,
       children: [
         this.renderDate(),
-        this.renderHeader(),
         this.renderStops(),
       ],
     });
@@ -99,19 +97,9 @@ module.exports = React.createClass({
       className: "board-font",
       style: {
         "display": "block",
-        "margin": "1rem 1rem 0.5rem 1rem",
+        "margin": "1rem",
       },
       date: this.props.trip.tripStops[0].date,
-    });
-  },
-
-  renderHeader: function() {
-    return el(TripHeader, {
-      style: {
-        "width": "18rem",
-        "margin": "1rem 1rem 1rem 1rem",
-      },
-      scheduledTrip: this.props.trip,
     });
   },
 

@@ -5,6 +5,7 @@ var React = require("react");
 var el = React.createElement;
 var stations = require("../stations.json");
 var getStation = require("../get-station");
+var colors = require("./colors");
 
 // ## Dropdown
 //
@@ -20,10 +21,10 @@ var SELECT_STYLE = {
 var Dropdown = React.createClass({
   getBackgroundColor: function() {
     if (this.state.focused) {
-      return "#aaa";
+      return colors.selected;
     }
     else {
-      return "#f5f5f5";
+      return colors.background;
     }
   },
 
@@ -43,6 +44,13 @@ var Dropdown = React.createClass({
     return {
       focused: false,
     };
+  },
+
+  getClassName: function() {
+    return [
+      "board-font",
+      this.state.focused && "is-focused",
+    ].join(" ");
   },
 
   render: function() {
@@ -78,13 +86,13 @@ var Dropdown = React.createClass({
           "aria-hidden": true,
           style: {
             "margin-left": ".25em",
-            "background-color": this.getBackgroundColor(),
+            "background-color": colors.background,
             "color": "#111",
             "padding": "0 0.25em",
-            "border-bottom": "0.25rem solid #aaa",
+            "border-bottom": "0.25rem solid " + colors.shadow,
             "white-space": "nowrap",
           },
-          className: "board-font",
+          className: this.getClassName(),
           children: [
             this.props.text,
             el("span", {

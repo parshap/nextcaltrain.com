@@ -8,9 +8,6 @@ var Trip = require("./trip");
 var TwoColumn = require("./two-column");
 var colors = require("./colors");
 
-var DIM_COLOR = "#c4c4c4";
-// var CALTRAIN_RED = "#e22a2a";
-
 module.exports = React.createClass({
   render: function() {
     return el(TwoColumn, {
@@ -20,12 +17,10 @@ module.exports = React.createClass({
       },
       leftStyle: {
         "width": "20rem",
-        "border-right": "1px solid " + DIM_COLOR,
       },
       leftChildren: this.renderScheduleSection(),
       rightChildren: this.renderSelectedTrip(),
       rightStyle: {
-        "background": colors.selected,
       },
     });
   },
@@ -34,7 +29,7 @@ module.exports = React.createClass({
     return [
       el(RouteSelector, {
         style: {
-          margin: "1.5rem 1rem",
+          margin: "1.5rem 1rem .5rem 1rem",
         },
         route: this.props.state.get("route").toJS(),
         onChange: this.props.dispatch.bind(null, "change-route"),
@@ -47,6 +42,7 @@ module.exports = React.createClass({
     var schedule = this.props.state.get("schedule");
     if (schedule) {
       return el(Schedule, {
+        className: "clearfix",
         schedule: schedule,
         selectedTrip: this.props.state.get("selectedTrip"),
         dispatch: this.props.dispatch,

@@ -82,7 +82,7 @@ var ScheduledTripHeader = React.createClass({
     var scheduledTrip = this.props.scheduledTrip;
     var firstStop = getFirstStop(scheduledTrip);
     var lastStop = getLastStop(scheduledTrip);
-    return el("header", {
+    return el("section", {
       style: this.props.style,
       children: [
         ScheduledTripTimes({

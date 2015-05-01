@@ -23,6 +23,20 @@ var ScheduledTrip = React.createClass({
     if (this.props.isSelected) {
       return colors.selected;
     }
+    else {
+      return colors.background;
+    }
+  },
+
+  getStyle: function() {
+    return xtend({
+      "position": "relative",
+      "cursor": "pointer",
+      "padding": "1.5rem 1rem",
+      "border-bottom": "0.25rem solid " + colors.shadow,
+      "background": colors.background,
+      "margin": "1rem 0.25rem",
+    }, this.props.style);
   },
 
   render: function() {
@@ -32,15 +46,46 @@ var ScheduledTrip = React.createClass({
       "tabIndex": 0,
       "role": "radiobutton",
       "aria-checked": this.props.isSelected,
-      style: xtend({
-        "cursor": "pointer",
-        "padding": "1.5rem 1rem",
-        "border-top": "1px solid " + colors.dim,
-        "background": this.getBackground(),
-      }, this.props.style),
+      style: this.getStyle(),
       children: [
         TripHeader({
           scheduledTrip: scheduledTrip,
+        }),
+        this.renderSelectedIndicator(),
+      ],
+    });
+  },
+
+  renderSelectedIndicator: function() {
+    if (this.props.isSelected) {
+      return el(SelectedIndicator);
+    }
+  },
+});
+
+// ### Selected Indicator
+
+var SelectedIndicator = React.createClass({
+  render: function() {
+    var style = {
+      position: "absolute",
+      width: "0.5rem",
+      height: "100%",
+      top: 0,
+      "background-color": colors.selected,
+    };
+    return el("div", {
+      "aria-hidden": true,
+      children: [
+        el("div", {
+          style: xtend(style, {
+            left: 0,
+          }),
+        }),
+        el("div", {
+          style: xtend(style, {
+            right: 0,
+          }),
         }),
       ],
     });
@@ -63,6 +108,7 @@ module.exports = React.createClass({
 
   render: function() {
     return el("article", {
+      className: this.props.className,
       children: [
         this.renderSchedule(),
       ],

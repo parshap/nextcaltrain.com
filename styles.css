@@ -38,12 +38,17 @@ html, body {
 }
 
 body {
-  background: #111;
-  color: #f5f5f5;
+  background: #ddd;
+  color: #111;
   font-size: 16px;
   font-family: sans-serif;
 }
 
 .dim {
   opacity: 0.75;
+}
+
+:focus,
+.is-focused {
+  outline: 0.25rem dotted hsl(220, 100%, 68%);
 }
