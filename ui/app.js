@@ -6,7 +6,9 @@ var RouteSelector = require("./route-selector");
 var Schedule = require("./schedule");
 var Trip = require("./trip");
 var TwoColumn = require("./two-column");
-var colors = require("./colors");
+var Responsive = require("./responsive");
+
+var PANE_SIZE = 320;
 
 module.exports = React.createClass({
   render: function() {
@@ -16,12 +18,16 @@ module.exports = React.createClass({
         "width": "100%",
       },
       leftStyle: {
-        "width": "20rem",
+        "width": PANE_SIZE,
       },
       leftChildren: this.renderScheduleSection(),
-      rightChildren: this.renderSelectedTrip(),
-      rightStyle: {
-      },
+      rightChildren: el(Responsive, {
+        cases: [function(size) {
+          if (size.width >= PANE_SIZE) {
+            return this.renderSelectedTrip();
+          }
+        }.bind(this)],
+      }),
     });
   },
 
