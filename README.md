@@ -1,5 +1,15 @@
 # nextcaltrain.com
 
+[Caltrain][] schedule web application
+
+[caltrain]: http://www.caltrain.com/ "California commuter rail line"
+
+## nextcaltrain
+
+Caltrain schedule is provided by the *[nextcaltrain][]* module.
+
+[nextcaltrain]: https://github.com/parshap/nextcaltrain
+
 ## Features
 
 ### Self-contained HTML
