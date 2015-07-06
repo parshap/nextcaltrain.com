@@ -71,6 +71,8 @@ function getRouteFromStorage() {
   };
 }
 
+// Returns value from localStorage. If no value is present or localStorage is
+// not available, `undefined` is returned.
 function getStorageItem(name) {
   try {
     return JSON.parse(window.localStorage.getItem(name));
@@ -85,12 +87,19 @@ function updateStorage(route) {
   });
 }
 
+// Writes to localStorage. Fails silently if localStorage is not available.
 function setStorageItem(name, value) {
   if (value === undefined) {
-    window.localStorage.removeItem(name);
+    try {
+      window.localStorage.removeItem(name);
+    }
+    catch (err) {}
   }
   else {
-    window.localStorage.setItem(name, JSON.stringify(value || null));
+    try {
+      window.localStorage.setItem(name, JSON.stringify(value || null));
+    }
+    catch (err) {}
   }
 }
 
