@@ -8,6 +8,7 @@ var getStopName = require("./get-stop-name");
 var renderBoardTime = require("./board-time");
 var DateEl = require("./date");
 var colors = require("./colors");
+var getGoogleMapsImageURL = require("./google-maps-image");
 
 var StopMarker = React.createClass({
   render: function() {
@@ -87,6 +88,7 @@ module.exports = React.createClass({
       style: this.props.style,
       children: [
         this.renderDate(),
+        this.renderImage(),
         this.renderStops(),
       ],
     });
@@ -100,6 +102,15 @@ module.exports = React.createClass({
         "margin": "1rem",
       },
       date: this.props.trip.tripStops[0].date,
+    });
+  },
+
+  renderImage: function() {
+    var src = getGoogleMapsImageURL(this.props.trip, "320x240");
+    return el("img", {
+      src: src,
+      width: 320,
+      height: 240,
     });
   },
 
