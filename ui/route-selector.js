@@ -53,6 +53,20 @@ var Dropdown = React.createClass({
     ].join(" ");
   },
 
+  getOptions: function() {
+    if ( ! this.props.value) {
+      return [
+        el("option", {
+          value: "",
+          children: "",
+        }),
+      ].concat(this.props.children);
+    }
+    else {
+      return this.props.children;
+    }
+  },
+
   render: function() {
     return el("div", {
       style: xtend({
@@ -69,11 +83,11 @@ var Dropdown = React.createClass({
     return el("select", {
       id: this.props.id,
       style: SELECT_STYLE,
-      children: this.props.children,
+      children: this.getOptions(),
       onChange: this.props.onChange,
       onFocus: this.handleFocus,
       onBlur: this.handleBlur,
-      value: this.props.value,
+      value: this.props.value || "",
     });
   },
 
