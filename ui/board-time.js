@@ -19,7 +19,7 @@ module.exports = function(props) {
       el("span", {
         className: "dim",
         style: {
-          "margin-left": ".4em",
+          "margin-left": ".25em",
           "font-size": "65%",
           "text-transform": "uppercase",
         },
