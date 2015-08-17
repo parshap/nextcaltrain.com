@@ -6,6 +6,8 @@ var React = require("react");
 var el = React.createElement;
 var getStopName = require("./get-stop-name");
 var renderBoardTime = require("./board-time");
+var SelectedIndicator = require("./selected-indicator");
+var TripHeader = require("./trip-header");
 var DateEl = require("./date");
 var colors = require("./colors");
 var getGoogleMapsImageURL = require("./google-maps-image");
@@ -85,21 +87,37 @@ module.exports = React.createClass({
 
   render: function() {
     return el("article", {
-      style: this.props.style,
+      style: xtend({
+        width: "320px",
+        padding: "1.5rem 0 0 0",
+        background: colors.background,
+        position: "relative",
+      }, this.props.style),
       children: [
+        el(TripHeader, {
+          style: {
+            "box-sizing": "border-box",
+            width: "320px",
+            padding: "0 1rem",
+            margin: "0 0 1rem 0",
+          },
+          scheduledTrip: this.props.trip,
+        }),
         this.renderDate(),
-        this.renderImage(),
         this.renderStops(),
+        this.renderImage(),
+        el(SelectedIndicator),
       ],
     });
   },
 
   renderDate: function() {
     return el(DateEl, {
-      className: "board-font",
+      className: "board-font dim",
       style: {
         "display": "block",
-        "margin": "1rem",
+        padding: "0 1rem",
+        margin: "0 0 1rem 0",
       },
       date: this.props.trip.tripStops[0].date,
     });
@@ -111,6 +129,9 @@ module.exports = React.createClass({
       src: src,
       width: 320,
       height: 240,
+      style: {
+        display: "block",
+      },
     });
   },
 
@@ -127,6 +148,7 @@ module.exports = React.createClass({
       className: "board-font",
       style: {
         padding: "0 1rem",
+        margin: "0 0 1rem 0",
       },
       children: trips,
     });

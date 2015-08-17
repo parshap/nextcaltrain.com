@@ -6,6 +6,7 @@ var React = require("react");
 var el = React.createElement;
 var getStopName = require("./get-stop-name");
 var TripHeader = require("./trip-header");
+var SelectedIndicator = require("./selected-indicator");
 var getFirstStop = require("./schedule-util").getFirstStop;
 var getLastStop = require("./schedule-util").getLastStop;
 var colors = require("./colors");
@@ -35,7 +36,7 @@ var ScheduledTrip = React.createClass({
       "padding": "1.5rem 1rem",
       "border-bottom": "0.25rem solid " + colors.shadow,
       "background": colors.background,
-      "margin": "1rem 0.25rem",
+      "margin": "0 0 0.25rem 0",
     }, this.props.style);
   },
 
@@ -63,35 +64,6 @@ var ScheduledTrip = React.createClass({
   },
 });
 
-// ### Selected Indicator
-
-var SelectedIndicator = React.createClass({
-  render: function() {
-    var style = {
-      position: "absolute",
-      width: "0.5rem",
-      height: "100%",
-      top: 0,
-      "background-color": colors.selected,
-    };
-    return el("div", {
-      "aria-hidden": true,
-      children: [
-        el("div", {
-          style: xtend(style, {
-            left: 0,
-          }),
-        }),
-        el("div", {
-          style: xtend(style, {
-            right: 0,
-          }),
-        }),
-      ],
-    });
-  },
-});
-
 // ## Exports - Schedule (List of scheduled stops)
 //
 
@@ -109,6 +81,7 @@ module.exports = React.createClass({
   render: function() {
     return el("article", {
       className: this.props.className,
+      style: this.props.style,
       children: [
         this.renderSchedule(),
       ],

@@ -16,6 +16,8 @@ module.exports = React.createClass({
       style: {
         "height": "100%",
         "width": "100%",
+        "max-width": "664px",
+        "margin": "0 auto",
       },
       leftStyle: {
         "width": PANE_SIZE,
@@ -35,7 +37,7 @@ module.exports = React.createClass({
     return [
       el(RouteSelector, {
         style: {
-          margin: "1.5rem 1rem .5rem 1rem",
+          margin: "1.5rem 1rem 1rem 1rem",
         },
         route: this.props.state.get("route").toJS(),
         onChange: this.props.dispatch.bind(null, "change-route"),
@@ -48,7 +50,9 @@ module.exports = React.createClass({
     var schedule = this.props.state.get("schedule");
     if (schedule) {
       return el(Schedule, {
-        className: "clearfix",
+        style: {
+          margin: "0 0 1.5rem 0",
+        },
         schedule: schedule,
         selectedTrip: this.props.state.get("selectedTrip"),
         dispatch: this.props.dispatch,
@@ -61,6 +65,9 @@ module.exports = React.createClass({
     if (trip) {
       return el(Trip, {
         trip: trip,
+        style: {
+          margin: "1.5rem 0 1.5rem 1.5rem",
+        },
       });
     }
   },
