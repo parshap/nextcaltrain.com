@@ -112,7 +112,7 @@ function getCurrentHash() {
 }
 
 function parseHash(hash) {
-  var parts = hash.split(/-to-|-to|to-/, 2);
+  var parts = hash.split(/-to-|-to$|^to-/, 2);
   var from = getStation(function(station) {
     return slug(station.name) === parts[0];
   });
