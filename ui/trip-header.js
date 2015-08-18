@@ -47,21 +47,6 @@ function getTrainTypeBackgroundColor(type) {
   }
 }
 
-function getTrainTypeColor(type) {
-  if (type === "Limited") {
-    return "#111";
-  }
-  else if (type === "Bullet") {
-    return "#f5f5f5";
-  }
-  else {
-    return "#111";
-  }
-}
-
-
-
-
 function renderBoardDuration(props) {
   var d = new Date(props.duration);
   return el("time", {
@@ -180,7 +165,7 @@ var ScheduledTripTrainInfo = React.createClass({
     return el("div", {
       style: {
         "background-color": getTrainTypeBackgroundColor(trainType),
-        "color": getTrainTypeColor(trainType),
+        "color": colors.foreground,
         "padding": "0.25em .35em",
         "display": "inline-block",
       },
