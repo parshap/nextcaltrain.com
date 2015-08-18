@@ -40,7 +40,6 @@ function applyRoute(state, route) {
 function applySchedule(state) {
   var schedule = getSchedule(state.get("route").toJS());
   state = state.set("schedule", schedule);
-  state = state.set("selectedTrip", schedule && schedule[0]);
   return state;
 }
 
