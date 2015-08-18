@@ -23,7 +23,7 @@ upload() {
 ./generate | upload index.html "text/html; charset=utf-8" $day
 cat error.html | upload error.html "text/html; charset=utf-8" $year
 
-echo "Deploy complete. You may not safely exit."
+echo "Deploy complete. You may safely exit."
 echo
 echo "Waiting for cache invalidation. This could take a while..."
 cf-invalidate --wait -- $CLOUDFRONT_DISTRIBUTION index.html error.html
