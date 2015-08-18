@@ -85,7 +85,7 @@ var ScheduledTripHeader = React.createClass({
     return el("section", {
       style: this.props.style,
       children: [
-        ScheduledTripTimes({
+        el(ScheduledTripTimes, {
           scheduledTrip: this.props.scheduledTrip,
         }),
         el("div", {
@@ -97,7 +97,7 @@ var ScheduledTripHeader = React.createClass({
             "width": "100%",
           },
           children: [
-            ScheduledTripTrainInfo({
+            el(ScheduledTripTrainInfo, {
               style: {
                 "display": "table-cell",
               },
