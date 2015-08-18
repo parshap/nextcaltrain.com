@@ -27,6 +27,7 @@
     "browserify": "^7.1.0",
     "chokidar": "^0.12.6",
     "clean-css": "^2.2.23",
+    "cloudfront-invalidate-cli": "^1.0.3",
     "disc": "^1.3.1",
     "envify": "^3.2.0",
     "getport": "^0.1.0",
