@@ -9,9 +9,9 @@ module.exports = {
   dim: "#aaa",
 
   // Trains
-  limited: "#fef0b5",
-  bullet: "#e31837",
-  local: "#c4c4c4",
+  limited: "hsl(48, 100%, 85%)",
+  bullet: "hsl(351, 100%, 85%)",
+  local: "hsl(0, 0%, 85%)",
 
   // States
   selected: "hsl(39, 100%, 50%)",
