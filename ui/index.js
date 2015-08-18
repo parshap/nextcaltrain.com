@@ -14,14 +14,20 @@ function getStationSlug(stationId) {
   return slug(getStation(stationId).name);
 }
 
-function updateHash(route) {
+function updateHash(route, shouldReplace) {
   if (getCurrentHash() !== getHash(route)) {
-    setHash(route);
+    setHash(route, shouldReplace);
   }
 }
 
-function setHash(route) {
-  window.location.hash = getHash(route);
+function setHash(route, shouldReplace) {
+  var hash = getHash(route);
+  if (shouldReplace && window.replaceState) {
+    window.replaceState(null, null, "#" + hash);
+  }
+  else {
+    window.location.hash = hash;
+  }
 }
 
 function getHash(route) {
@@ -160,9 +166,12 @@ var createState = require("./state");
     }
     else {
       // Normalize url
-      updateHash(route);
+      updateHash(route, true);
     }
   });
+
+  // Normalize initial url
+  updateHash(getInitialRoute(), true);
 
   // Set initial route
   dispatch("change-route", getInitialRoute());
