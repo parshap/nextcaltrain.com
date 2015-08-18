@@ -23,7 +23,7 @@ module.exports = React.createClass({
         "width": PANE_SIZE,
       },
       leftChildren: this.renderScheduleSection(),
-      rightChildren: el(Responsive, {
+      rightChildren: el(Responsive.Self, {
         cases: [function(size) {
           if (size.width >= PANE_SIZE) {
             return this.renderSelectedTrip();
