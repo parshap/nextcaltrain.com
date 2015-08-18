@@ -40,9 +40,20 @@ var TripStop = React.createClass({
     }
   },
 
+  isFirstOrLast: function() {
+    return this.props.isFirst || this.props.isLast;
+  },
+
+  getClassName: function() {
+    if ( ! this.isFirstOrLast()) {
+      return "dim";
+    }
+  },
+
   render: function() {
     var tripStop = this.props.tripStop;
     return el("section", {
+      className: this.getClassName(),
       style: {
         position: "relative",
         "margin": "0.3rem 0",
@@ -82,31 +93,16 @@ function renderStationName(props) {
   });
 }
 
-module.exports = React.createClass({
+var Body = React.createClass({
   displayName: "ScheduledTripDetails",
 
   render: function() {
-    return el("article", {
-      style: xtend({
-        width: "320px",
-        padding: "1.5rem 0 0 0",
-        background: colors.background,
-        position: "relative",
-      }, this.props.style),
+    return el("div", {
+      style: this.props.style,
       children: [
-        el(TripHeader, {
-          style: {
-            "box-sizing": "border-box",
-            width: "320px",
-            padding: "0 1rem",
-            margin: "0 0 1rem 0",
-          },
-          scheduledTrip: this.props.trip,
-        }),
         this.renderDate(),
         this.renderStops(),
         this.renderImage(),
-        el(SelectedIndicator),
       ],
     });
   },
@@ -154,3 +150,35 @@ module.exports = React.createClass({
     });
   },
 });
+
+module.exports = React.createClass({
+  displayName: "ScheduledTripDetails",
+
+  render: function() {
+    return el("article", {
+      style: xtend({
+        width: "320px",
+        padding: "1.5rem 0 0 0",
+        background: colors.background,
+        position: "relative",
+      }, this.props.style),
+      children: [
+        el(TripHeader, {
+          style: {
+            "box-sizing": "border-box",
+            width: "320px",
+            padding: "0 1rem",
+            margin: "0 0 1rem 0",
+          },
+          scheduledTrip: this.props.trip,
+        }),
+        el(Body, {
+          trip: this.props.trip,
+        }),
+        el(SelectedIndicator),
+      ],
+    });
+  },
+});
+
+module.exports.Body = Body;

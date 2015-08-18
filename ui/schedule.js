@@ -6,6 +6,7 @@ var React = require("react");
 var el = React.createElement;
 var getStopName = require("./get-stop-name");
 var TripHeader = require("./trip-header");
+var Trip = require("./trip");
 var SelectedIndicator = require("./selected-indicator");
 var getFirstStop = require("./schedule-util").getFirstStop;
 var getLastStop = require("./schedule-util").getLastStop;
@@ -30,31 +31,62 @@ var ScheduledTrip = React.createClass({
   },
 
   getStyle: function() {
-    return xtend({
+    var style ={
       "position": "relative",
-      "cursor": "pointer",
-      "padding": "1.5rem 1rem",
+      "padding": "1.5rem 0 0 0",
       "border-bottom": "0.25rem solid " + colors.shadow,
       "background": colors.background,
       "margin": "0 0 0.25rem 0",
-    }, this.props.style);
+    };
+    if (this.props.isExpanded) {
+      style["margin"] = "0 0 0.5rem 0";
+    }
+    else {
+      style["cursor"] = "pointer";
+    }
+    return xtend(style, this.props.style);
+  },
+
+  getHeaderMarginBottom: function() {
+    if (this.props.isExpanded) {
+      return "1rem";
+    }
+    else {
+      return "1.5rem";
+    }
   },
 
   render: function() {
-    var scheduledTrip = this.props.scheduledTrip;
     return el("article", {
+      // @TODO Keyboard
       onClick: this.props.onClick,
       "tabIndex": 0,
       "role": "radiobutton",
       "aria-checked": this.props.isSelected,
       style: this.getStyle(),
       children: [
-        TripHeader({
-          scheduledTrip: scheduledTrip,
+        el(TripHeader, {
+          style: {
+            padding: "0 1rem",
+            "margin-bottom": this.getHeaderMarginBottom(),
+          },
+          scheduledTrip: this.props.scheduledTrip,
         }),
+        this.renderExpanded(),
         this.renderSelectedIndicator(),
       ],
     });
+  },
+
+  renderExpanded: function() {
+    if (this.props.isExpanded) {
+      return el(Trip.Body, {
+        style: {
+          margin: "1rem 0 0 0",
+        },
+        trip: this.props.scheduledTrip,
+      });
+    }
   },
 
   renderSelectedIndicator: function() {
@@ -89,15 +121,18 @@ module.exports = React.createClass({
   },
 
   renderSchedule: function() {
-    var dispatch = this.props.dispatch;
-    var selectedTrip = this.props.selectedTrip;
-    return this.props.schedule.map(function(scheduledTrip) {
-      return ScheduledTrip({
-        isSelected: scheduledTrip === selectedTrip,
-        scheduledTrip: scheduledTrip,
+    var props = this.props;
+    return this.props.schedule.map(function(trip) {
+      var isSelected = trip === props.selectedTrip;
+      return el(ScheduledTrip, {
+        isSelected: isSelected,
+        isExpanded: props.shouldExpand && isSelected,
+        scheduledTrip: trip,
         onClick: function(e) {
           e.preventDefault();
-          dispatch("select-trip", scheduledTrip);
+          if ( ! isSelected) {
+            props.onTripSelect(trip);
+          }
         },
       });
     });
