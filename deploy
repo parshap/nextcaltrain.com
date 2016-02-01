@@ -19,8 +19,8 @@ upload() {
 		--content-language en
 }
 
-./generate | upload index.html "text/html; charset=utf-8" $day
-cat error.html | upload error.html "text/html; charset=utf-8" $year
+./generate | upload index.html "text/html; charset=utf-8" "$day"
+cat error.html | upload error.html "text/html; charset=utf-8" "$year"
 
 echo "Deploy complete. You may safely exit."
 echo
