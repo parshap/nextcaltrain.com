@@ -8,15 +8,14 @@ var colors = require("./colors");
 var getFirstStop = require("./schedule-util").getFirstStop;
 var getLastStop = require("./schedule-util").getLastStop;
 var renderBoardTime = require("./board-time");
+var getRouteName = require("nextcaltrain/route-name");
 
 function renderTrainName(props) {
-  var firstTripStop = getFirstStop(props.scheduledTrip);
-  var headsign = firstTripStop.stop.platform_code;
   var trainNumber = props.scheduledTrip.trip.trip_short_name;
   return el("span", {
     style: props.style,
     children: [
-      headsign,
+      props.scheduledTrip.direction,
       el("span", {
         style: {
           "margin-left": "0.25em",
@@ -28,18 +27,18 @@ function renderTrainName(props) {
 }
 
 function renderBoardTrainType(props) {
-  var trainType = props.scheduledTrip.route.route_long_name;
-  return el("span", {
+ return el("span", {
     style: props.styles,
-    children: trainType,
+    children: getRouteName(props.scheduledTrip.route.route_id),
   });
 }
 
-function getTrainTypeBackgroundColor(type) {
-  if (type === "Limited") {
+function getRouteBackgroundColor(route) {
+  var routeName = getRouteName(route.route_id);
+  if (routeName === "Limited") {
     return colors.limited;
   }
-  else if (type === "Bullet") {
+  else if (routeName === "Bullet") {
     return colors.bullet;
   }
   else {
@@ -161,10 +160,9 @@ var ScheduledTripTrainInfo = React.createClass({
 
   render: function() {
     var scheduledTrip = this.props.scheduledTrip;
-    var trainType = this.props.scheduledTrip.route.route_long_name;
     return el("div", {
       style: {
-        "background-color": getTrainTypeBackgroundColor(trainType),
+        "background-color": getRouteBackgroundColor(scheduledTrip.route),
         "color": colors.foreground,
         "padding": "0.25em .35em",
         "display": "inline-block",

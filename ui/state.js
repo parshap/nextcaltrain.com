@@ -3,7 +3,7 @@
 var Immutable = require("immutable");
 var caltrain = require("nextcaltrain");
 var deferredNextTick = require("../lib/deferred-next-tick");
-var getStation = require("../get-station");
+var stations = require("nextcaltrain/stations");
 var mapValues = require("map-values");
 
 function createState() {
@@ -72,7 +72,7 @@ function getSchedule(route) {
 
 function sanitizeRoute(route) {
   return mapValues(route, function(val) {
-    return getStation(val) && val;
+    return stations.byId(val) && val;
   });
 }
 

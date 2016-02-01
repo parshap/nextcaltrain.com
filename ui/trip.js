@@ -4,7 +4,6 @@
 var xtend = require("xtend");
 var React = require("react");
 var el = React.createElement;
-var getStopName = require("./get-stop-name");
 var renderBoardTime = require("./board-time");
 var SelectedIndicator = require("./selected-indicator");
 var TripHeader = require("./trip-header");
@@ -89,7 +88,7 @@ var TripStop = React.createClass({
 
 function renderStationName(props) {
   return el("span", {
-    children: getStopName(props.station),
+    children: props.station.name,
   });
 }
 

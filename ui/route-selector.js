@@ -3,8 +3,7 @@
 var xtend = require("xtend");
 var React = require("react");
 var el = React.createElement;
-var stations = require("../stations.json");
-var getStation = require("../get-station");
+var stations = require("nextcaltrain/stations");
 var colors = require("./colors");
 
 // ## Dropdown
@@ -138,14 +137,14 @@ var Dropdown = React.createClass({
 
 module.exports = React.createClass({
   getFromName: function() {
-    var station = getStation(this.props.route.from);
+    var station = stations.byId(this.props.route.from);
     if (station) {
       return station.name;
     }
   },
 
   getToName: function() {
-    var station = getStation(this.props.route.to);
+    var station = stations.byId(this.props.route.to);
     if (station) {
       return station.name;
     }

@@ -3,15 +3,13 @@
 var Immutable = require("immutable");
 var React = require("react");
 var App = require("./app");
-
-// ## URL hash state
-
+var stations = require("nextcaltrain/stations");
 var hash = require("hash-change");
 var slug = require("to-slug-case");
-var getStation = require("../get-station");
+var find = require("array-find");
 
 function getStationSlug(stationId) {
-  return slug(getStation(stationId).name);
+  return slug(stations.byId(stationId).name);
 }
 
 function updateHash(route, shouldReplace) {
@@ -119,16 +117,18 @@ function getCurrentHash() {
 
 function parseHash(hash) {
   var parts = hash.split(/-to-|-to$|^to-/, 2);
-  var from = getStation(function(station) {
-    return slug(station.name) === parts[0];
-  });
-  var to = getStation(function(station) {
-    return slug(station.name) === parts[1];
-  });
+  var from = getStationBySlug(parts[0]);
+  var to = getStationBySlug(parts[1]);
   return {
     from: from && from.id,
     to: to && to.id,
   };
+}
+
+function getStationBySlug(stationSlug) {
+  return find(stations, function(station) {
+    return slug(station.name) === stationSlug;
+  });
 }
 
 function hasRoute(route) {

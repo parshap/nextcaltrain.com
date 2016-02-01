@@ -4,12 +4,9 @@
 var xtend = require("xtend");
 var React = require("react");
 var el = React.createElement;
-var getStopName = require("./get-stop-name");
 var TripHeader = require("./trip-header");
 var Trip = require("./trip");
 var SelectedIndicator = require("./selected-indicator");
-var getFirstStop = require("./schedule-util").getFirstStop;
-var getLastStop = require("./schedule-util").getLastStop;
 var colors = require("./colors");
 
 // ## Scheduled Trip
@@ -101,14 +98,6 @@ var ScheduledTrip = React.createClass({
 
 module.exports = React.createClass({
   displayName: "Schedule",
-
-  getDepartingStationName: function() {
-    return getStopName(getFirstStop(this.props.schedule[0]).station);
-  },
-
-  getArrivingStationName: function() {
-    return getStopName(getLastStop(this.props.schedule[0]).station);
-  },
 
   render: function() {
     return el("article", {
