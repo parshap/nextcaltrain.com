@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 S3_BUCKET=nextcaltrain.com
 CLOUDFRONT_DISTRIBUTION=E3CI6YHVG0UNH0
@@ -9,15 +10,13 @@ year=$(expr $day \* 365)
 
 # upload NAME TYPE MAXAGE
 upload() {
-	gzip -c |
-		aws s3 cp - \
-			s3://$S3_BUCKET/$1 \
-			--region us-east-1 \
-			--acl public-read \
-			--content-type "$2" \
-			--content-encoding gzip \
-			--cache-control "max-age=$3, public" \
-			--content-language en
+	aws s3 cp - \
+		s3://$S3_BUCKET/$1 \
+		--region us-east-1 \
+		--acl public-read \
+		--content-type "$2" \
+		--cache-control "max-age=$3, public" \
+		--content-language en
 }
 
 ./generate | upload index.html "text/html; charset=utf-8" $day
@@ -26,4 +25,4 @@ cat error.html | upload error.html "text/html; charset=utf-8" $year
 echo "Deploy complete. You may safely exit."
 echo
 echo "Waiting for cache invalidation. This could take a while..."
-cf-invalidate --wait -- $CLOUDFRONT_DISTRIBUTION index.html error.html
+node_modules/.bin/cf-invalidate --wait -- $CLOUDFRONT_DISTRIBUTION index.html error.html
