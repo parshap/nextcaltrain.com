@@ -139,7 +139,7 @@ function hasRoute(route) {
 
 var createState = require("./state");
 
-(function() {
+module.exports = function(container) {
   var state;
   var dispatch = createState(function(newState) {
     state = newState;
@@ -150,7 +150,7 @@ var createState = require("./state");
         state: state,
         dispatch: dispatch,
       }),
-      global.document.body
+      container
     );
   });
 
@@ -175,4 +175,4 @@ var createState = require("./state");
 
   // Set initial route
   dispatch("change-route", getInitialRoute());
-})();
+};

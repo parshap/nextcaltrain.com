@@ -9,7 +9,7 @@ var xtend = require("xtend");
 function scripts(opts) {
   opts = opts || {};
   var env = opts.env || process.env;
-  var b = browserify(__dirname + "/ui", opts);
+  var b = browserify(__dirname + "/client", opts);
   b.transform(envify(env));
   if (env.NODE_ENV === "production") {
     b.transform({ global: true }, uglifyify);
