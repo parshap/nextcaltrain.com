@@ -4,7 +4,7 @@ var Immutable = require("immutable");
 var caltrain = require("nextcaltrain");
 var deferredNextTick = require("../lib/deferred-next-tick");
 var stations = require("nextcaltrain/stations");
-var mapValues = require("map-values");
+var filterObject = require("object-filter");
 
 function getInitialState() {
   return Immutable.fromJS({
@@ -71,11 +71,19 @@ function getSchedule(route) {
 }
 
 function sanitizeRoute(route) {
-  return {
+  return removeNulls({
     from: stations.byId(route.from) && route.from,
     to: stations.byId(route.to) && route.to,
     date: route.date,
-  };
+  }, function(val) {
+    return val != null && val;
+  });
+}
+
+function removeNulls(obj) {
+  return filterObject(obj, function(val) {
+    return val != null;
+  });
 }
 
 module.exports = function(onChange) {
