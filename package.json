@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node-dev ./server",
+    "styleguide-server": "node-dev ./styleguide-server",
     "deploy": "./deploy",
     "update-bugsnag": "curl --compressed --location https://d2wy8f7a9ursnm.cloudfront.net/bugsnag-2.min.js > vendor/bugsnag-2.min.js"
   },

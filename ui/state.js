@@ -6,7 +6,7 @@ var deferredNextTick = require("../lib/deferred-next-tick");
 var stations = require("nextcaltrain/stations");
 var mapValues = require("map-values");
 
-function createState() {
+function getInitialState() {
   return Immutable.fromJS({
     route: {
       from: null,
@@ -53,7 +53,7 @@ function getSchedule(route) {
     var getNextStop = caltrain({
       from: route.from,
       to: route.to,
-      date: new Date(),
+      date: route.date || new Date(),
     });
     return [
       getNextStop(),
@@ -71,16 +71,18 @@ function getSchedule(route) {
 }
 
 function sanitizeRoute(route) {
-  return mapValues(route, function(val) {
-    return stations.byId(val) && val;
-  });
+  return {
+    from: stations.byId(route.from) && route.from,
+    to: stations.byId(route.to) && route.to,
+    date: route.date,
+  };
 }
 
 module.exports = function(onChange) {
   var handleChange = deferredNextTick(function() {
     onChange(state);
   });
-  var state = createState();
+  var state = getInitialState();
   handleChange();
   return function apply(action, data) {
     var newState = applyAction(state, action, data);
@@ -90,3 +92,6 @@ module.exports = function(onChange) {
     }
   };
 };
+
+module.exports.getInitialState = getInitialState;
+module.exports.applyAction = applyAction;
