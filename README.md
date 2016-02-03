@@ -1,4 +1,4 @@
-# nextcaltrain.com
+# nextcaltrain.com [![build status](https://secure.travis-ci.org/parshap/nextcaltrain.com.svg?branch=master)](http://travis-ci.org/parshap/nextcaltrain.com)
 
 [Caltrain][] schedule web application
 
