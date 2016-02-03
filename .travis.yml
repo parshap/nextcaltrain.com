@@ -2,5 +2,24 @@ language: node_js
 node_js:
   - '4'
   - node
+matrix:
+  include:
+    - node_js: node
+      env: DO_PERCY_SNAPSHOT=1
 before_install:
   - npm install -g npm
+  - |
+    if [ -n "$DO_PERCY_SNAPSHOT" ]; then
+      gem install percy-cli
+    fi
+script:
+  - npm test
+  - |
+    if [ -n "$DO_PERCY_SNAPSHOT" ]; then
+      mkdir dist &&
+        ./styleguide > dist/styleguide.html &&
+        percy snapshot dist
+    fi
+env:
+  global:
+    secure: RyLNxWkRg/lfBPzERTBcxkUZPFVmdPhLVEoa0PwEXpYvSuH92eYXiEDaxWZYoPwoGkpXSVOJ0JoOiMA6F5d19Lqz7NV0aBTmNuIpZKMj9KrmeGqB8A4J510hkigar9BxHAnGXbC0WSD2XtVzhS8CxspU+4cfYt5+bAeLif4Fg04=
