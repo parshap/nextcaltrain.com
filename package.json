@@ -4,7 +4,7 @@
   "description": "Caltrain schedule web application",
   "main": "index.js",
   "scripts": {
-    "start": "./server",
+    "start": "node-dev ./server",
     "deploy": "./deploy",
     "update-bugsnag": "curl --compressed --location https://d2wy8f7a9ursnm.cloudfront.net/bugsnag-2.min.js > vendor/bugsnag-2.min.js"
   },
@@ -48,5 +48,8 @@
     "uglifyify": "^2.6.0",
     "watchify": "^2.2.1",
     "xtend": "^4.0.0"
+  },
+  "devDependencies": {
+    "node-dev": "^3.0.0"
   }
 }
