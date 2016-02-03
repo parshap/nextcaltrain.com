@@ -3,6 +3,7 @@ set -e
 
 S3_BUCKET=nextcaltrain.com
 CLOUDFRONT_DISTRIBUTION=E3CI6YHVG0UNH0
+GOOGLE_MAPS_STATIC_API_KEY=AIzaSyABMzqpfzexjofhAGOCI0rWkF38a_JFpNA
 
 day=$(expr 60 \* 60 \* 24)
 week=$(expr $day \* 7)
@@ -19,7 +20,9 @@ upload() {
 		--content-language en
 }
 
-./generate | upload index.html "text/html; charset=utf-8" "$day"
+NODE_ENV=production \
+	GOOGLE_MAPS_STATIC_API_KEY=$GOOGLE_MAPS_STATIC_API_KEY \
+	./generate | upload index.html "text/html; charset=utf-8" "$day"
 cat error.html | upload error.html "text/html; charset=utf-8" "$year"
 
 echo "Deploy complete. You may safely exit."
