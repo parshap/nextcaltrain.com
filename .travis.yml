@@ -18,7 +18,7 @@ script:
     if [ -n "$DO_PERCY_SNAPSHOT" ]; then
       mkdir dist &&
         ./styleguide > dist/styleguide.html &&
-        percy snapshot dist
+        percy snapshot --widths=320,960 dist
     fi
 env:
   global:
