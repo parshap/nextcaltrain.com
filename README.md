@@ -41,3 +41,14 @@ dispatching actions in a *[Flux][]-like* manner. See
 [immutable-js]: https://www.npmjs.com/package/immutable
 [flux]: http://facebook.github.io/flux/docs/overview.html
 [ui/state.js]: ./ui/state.js
+
+---
+
+### Bugsnag
+
+nextcaltrain.com uses [*Bugsnag*][bugsnag] to monitor errors. [*Bugsnag
+loves open source*][bugsnag open source] and has generously offered a
+free open source plan for nextcaltrain.com.
+
+[bugsnag]: https://bugsnag.com/
+[bugsnag open source]: http://blog.bugsnag.com/bugsnag-loves-open-source
