@@ -221,6 +221,11 @@ module.exports = function(container) {
         var route = getInitialRoute(),
             station = getStationByStopId(stop.stop_id);
 
+        // automatically swap stations if they're on their return trip
+        if (station.id == route.to) {
+          route.to = route.from;
+        }
+
         route.from = station.id;
         //route.from = getStationBySlug(slug(stop.name));
 
