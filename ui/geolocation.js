@@ -2,7 +2,7 @@
 * @Author: tyler
 * @Date:   2016-05-26 22:30:34
 * @Last Modified by:   odbol
-* @Last Modified time: 2016-05-26 22:53:09
+* @Last Modified time: 2016-05-26 23:33:12
 */
 
 'use strict';
@@ -79,9 +79,14 @@ module.exports.getClosestStop = function (store, callback) {
         callback(stops[0]);
       },
       onError = function (err) {
-        console.error(err);
+        // console.error(err);
+
+        callback(null);
       };
 
     navigator.geolocation.getCurrentPosition(onLocation, onError);
   }
-}
+  else {
+    callback(null);
+  }
+};
