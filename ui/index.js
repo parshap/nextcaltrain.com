@@ -8,12 +8,12 @@ var hash = require("hash-change");
 var slug = require("to-slug-case");
 var find = require("array-find");
 
-
+///////////////////////
+// GEOLOCATION
+///////////////////////
+var geo = require("./geolocation");
 var store = require("nextcaltrain/index");
-
-function getStore() {
-  return store;
-}
+var stations = require("nextcaltrain/stations");
 
 function getStationByStopId(stopId) {
   // return find(stations, function(station) {
@@ -21,6 +21,14 @@ function getStationByStopId(stopId) {
   // });
   return stations.byId(stopId);
 }
+
+function getStore() {
+  return store;
+}
+
+///////////////////////
+// END GEOLOCATION
+///////////////////////
 
 
 function getStationSlug(stationId) {
@@ -168,6 +176,7 @@ module.exports = function(container) {
       container
     );
   });
+  var initialRoute = getInitialRoute();
 
   hash.on("change", function() {
     // When the url changes, we will change the current route to match what is
@@ -186,40 +195,18 @@ module.exports = function(container) {
   });
 
   // Normalize initial url
-  updateHash(getInitialRoute(), true);
+  updateHash(initialRoute, true);
 
   // Set initial route
-  dispatch("change-route", getInitialRoute());
+  dispatch("change-route", initialRoute);
 
 
 
 
   // select closest station based on GPS
-  if (navigator.geolocation) {
-
-    var
-      // haversine function from http://stackoverflow.com/a/27943/473201
-      deg2rad = function (deg) {
-        return deg * (Math.PI/180);
-      },
-      getDistanceFromLatLonInKm = function (lat1,lon1,lat2,lon2) {
-        var R = 6371; // Radius of the earth in km
-        var dLat = deg2rad(lat2-lat1);  // deg2rad below
-        var dLon = deg2rad(lon2-lon1);
-        var a =
-          Math.sin(dLat/2) * Math.sin(dLat/2) +
-          Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
-          Math.sin(dLon/2) * Math.sin(dLon/2)
-          ;
-        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-        var d = R * c; // Distance in km
-        return d;
-      },
-
-
-      selectStop = function (stop) {
-        var route = getInitialRoute(),
-            station = getStationByStopId(stop.stop_id);
+  var
+      selectStop = function (station) {
+        var route = initialRoute;
 
         // automatically swap stations if they're on their return trip
         if (station.id == route.to) {
@@ -227,58 +214,27 @@ module.exports = function(container) {
         }
 
         route.from = station.id;
-        //route.from = getStationBySlug(slug(stop.name));
 
         dispatch("change-route", route);
       },
 
-      onLocation = function (position) {
-        var latitude  = 37.757674;//position.coords.latitude;
-        var longitude = -122.392636;//position.coords.longitude;
-
-        // find station with shortest distance to current position
-        var smallestDistance = Infinity,
-            closestStop = null,
-            store = getStore(),
-            storeStops = store.store.stops,
-            stops = [];
-
-        for (var s in storeStops) {
-          console.log(storeStops[s]);
-          // wtf? why are there also stops with no code?
-          //if (storeStops[s].stop_code) {
-          if (storeStops[s].location_type == "1") {
-            stops.push(storeStops[s]);
-          }
+      setIsLoading = function (isLoading) {
+        // TODO
+        if (isLoading) {
+          
         }
+        else {
 
-        // TODO: binary search this, since we know these stations are in order.
-        stops.sort(function (stopA, stopB) {
-          var distA = stopA._currentDistance || getDistanceFromLatLonInKm(
-              latitude, 
-              longitude, 
-              parseFloat(stopA.stop_lat), 
-              parseFloat(stopA.stop_lon)),
-
-            distB = stopB._currentDistance || getDistanceFromLatLonInKm(
-              latitude, 
-              longitude, 
-              parseFloat(stopB.stop_lat), 
-              parseFloat(stopB.stop_lon));  
-
-          // memoize!
-          stopA._currentDistance = distA;            
-          stopB._currentDistance = distB;
-
-          return distA - distB;
-        });
-        
-        selectStop(stops[0]);
-      },
-      onError = function (err) {
-        console.error(err);
+        }
       };
 
-    navigator.geolocation.getCurrentPosition(onLocation, onError);
-  }
+  setIsLoading(true);
+  geo.getClosestStop(getStore(), function (closestStop) {
+    
+    if (closestStop) {
+      selectStop(getStationByStopId(closestStop.stop_id));
+    }
+
+    setIsLoading(false);
+  });
 };
