@@ -219,12 +219,13 @@ module.exports = function(container) {
       },
 
       setIsLoading = function (isLoading) {
-        // TODO
+        var body = document.getElementsByTagName('body')[0];
+
         if (isLoading) {
-          
+          body.className += ' loading';  
         }
         else {
-
+          body.className = body.className.replace(' loading', '');  
         }
       };
 
