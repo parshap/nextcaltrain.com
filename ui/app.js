@@ -8,10 +8,18 @@ var Schedule = require("./schedule");
 var Trip = require("./trip");
 var TwoColumn = require("./two-column");
 var Responsive = require("./responsive");
+var TwitterIcon = require("./icons/twitter");
+var EnvelopeIcon = require("./icons/envelope");
+var leftPad = require("left-pad");
+var fs = require("fs");
 
 var PANE_SIZE = 320;
 var MARGIN_SIZE = 24;
 var MIN_BIG_SIZE = PANE_SIZE * 2 + MARGIN_SIZE;
+var LAST_UPDATED_DATE = new Date(
+  fs.readFileSync(__dirname + "/../LAST_UPDATED", "utf8")
+    .replace(/\s+$/, "")
+);
 
 module.exports = React.createClass({
   handleTripSelect: function(trip) {
@@ -64,25 +72,85 @@ module.exports = React.createClass({
   },
 
   renderScheduleSection: function(props) {
-    return [
-      el(RouteSelector, {
-        style: {
-          margin: "1.5rem 1rem 1rem 1rem",
-        },
-        route: this.props.state.get("route").toJS(),
-        onChange: this.props.dispatch.bind(null, "change-route"),
-      }),
-      this.renderSchedule(props),
-    ];
+    return el("div", {
+      style: {
+        margin: "1.5rem 0 1.5rem 0",
+      },
+      children: [
+        el(RouteSelector, {
+          style: {
+            margin: "0 1rem 1rem 1rem",
+          },
+          route: this.props.state.get("route").toJS(),
+          onChange: this.props.dispatch.bind(null, "change-route"),
+        }),
+        this.renderSchedule(props),
+        this.renderFooter(),
+      ],
+    })
+  },
+
+  renderFooter: function() {
+    var updatedDate = LAST_UPDATED_DATE.getUTCFullYear() + "-" +
+      leftPad(String(LAST_UPDATED_DATE.getUTCMonth() + 1), 2, "0")
+    return el("div", {
+      style: {
+        "text-align": "right",
+        "font-size": "85%",
+        "opacity": "0.4",
+        "margin": "0.5rem 0 0 0",
+      },
+      children: [
+        el("time", {
+          style: {
+            "margin-right": "0.5em",
+            "border-bottom": "1px dashed",
+            "cursor": "help",
+          },
+          itemprop: "dateModified",
+          datetime: LAST_UPDATED_DATE.toISOString(),
+          title: "Last updated on " + updatedDate,
+          children: updatedDate,
+        }),
+        "•",
+        el("a", {
+          style: {
+            color: "inherit",
+            "text-decoration": "none",
+            "margin-left": "0.5em",
+            "margin-right": "0.5em",
+          },
+          href: "https://twitter.com/parshap",
+          children: TwitterIcon({
+            style: {
+              height: "1.1em",
+              "margin-bottom": "0.15em",
+              "vertical-align": "middle",
+            },
+          })
+        }),
+        el("a", {
+          style: {
+            color: "inherit",
+            "text-decoration": "none",
+          },
+          href: "mailto:parshap+nextcaltrain@gmail.com",
+          children: EnvelopeIcon({
+            style: {
+              height: "1em",
+              "margin-bottom": "0.15em",
+              "vertical-align": "middle",
+            },
+          })
+        }),
+      ],
+    });
   },
 
   renderSchedule: function(props) {
     var schedule = this.props.state.get("schedule");
     if (schedule) {
       return el(Schedule, xtend({
-        style: {
-          margin: "0 0 1.5rem 0",
-        },
         schedule: schedule,
         selectedTrip: this.props.state.get("selectedTrip"),
         onTripSelect: this.handleTripSelect,
