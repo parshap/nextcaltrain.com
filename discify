@@ -7,7 +7,7 @@ var scripts = require("./scripts");
 
 var opts = {
   fullPaths: true,
-    env: xtend(process.env, {
+  env: xtend(process.env, {
     NODE_ENV: "production",
   }),
 };
