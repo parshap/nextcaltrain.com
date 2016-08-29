@@ -8,6 +8,29 @@ var hash = require("hash-change");
 var slug = require("to-slug-case");
 var find = require("array-find");
 
+///////////////////////
+// GEOLOCATION
+///////////////////////
+var geo = require("./geolocation");
+var store = require("nextcaltrain/index");
+var stations = require("nextcaltrain/stations");
+
+function getStationByStopId(stopId) {
+  // return find(stations, function(station) {
+  //   return stopId in station.stop_ids;
+  // });
+  return stations.byId(stopId);
+}
+
+function getStore() {
+  return store;
+}
+
+///////////////////////
+// END GEOLOCATION
+///////////////////////
+
+
 function getStationSlug(stationId) {
   return slug(stations.byId(stationId).name);
 }
@@ -153,6 +176,7 @@ module.exports = function(container) {
       container
     );
   });
+  var initialRoute = getInitialRoute();
 
   hash.on("change", function() {
     // When the url changes, we will change the current route to match what is
@@ -171,8 +195,47 @@ module.exports = function(container) {
   });
 
   // Normalize initial url
-  updateHash(getInitialRoute(), true);
+  updateHash(initialRoute, true);
 
   // Set initial route
-  dispatch("change-route", getInitialRoute());
+  dispatch("change-route", initialRoute);
+
+
+
+
+  // select closest station based on GPS
+  var
+      selectStop = function (station) {
+        var route = initialRoute;
+
+        // automatically swap stations if they're on their return trip
+        if (station.id == route.to) {
+          route.to = route.from;
+        }
+
+        route.from = station.id;
+
+        dispatch("change-route", route);
+      },
+
+      setIsLoading = function (isLoading) {
+        var body = document.getElementsByTagName('body')[0];
+
+        if (isLoading) {
+          body.className += ' loading';  
+        }
+        else {
+          body.className = body.className.replace(' loading', '');  
+        }
+      };
+
+  setIsLoading(true);
+  geo.getClosestStop(getStore(), function (closestStop) {
+    
+    if (closestStop) {
+      selectStop(getStationByStopId(closestStop.stop_id));
+    }
+
+    setIsLoading(false);
+  });
 };

@@ -52,3 +52,61 @@ body {
 .is-focused {
   outline: 0.25rem dotted hsl(220, 100%, 68%);
 }
+
+
+
+
+/****** GEOLOCATION ******/
+
+body:before {
+  content: " ";
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+
+
+  opacity: 0;
+  
+  /* quick fade in/out when loading starts/stops */
+  -webkit-transition: opacity 0.5s ease;
+  -moz-transition: opacity 0.5s ease;
+  -o-transition: opacity 0.5s ease;
+  transition: opacity  0.5s ease;
+
+  /* slow color loop */
+  -webkit-animation: color_change 10s infinite alternate;
+  -moz-animation: color_change 10s infinite alternate;
+  -ms-animation: color_change 10s infinite alternate;
+  -o-animation: color_change 10s infinite alternate;
+  animation: color_change 10s infinite alternate;
+}
+
+body.loading:before {
+
+  opacity: 1;
+
+}
+
+@-webkit-keyframes color_change {
+  from { background-color: #E0BBB3; }
+  to { background-color: #73B8BB; }
+}
+@-moz-keyframes color_change {
+  from { background-color: #E0BBB3; }
+  to { background-color: #73B8BB; }
+}
+@-ms-keyframes color_change {
+  from { background-color: #E0BBB3; }
+  to { background-color: #73B8BB; }
+}
+@-o-keyframes color_change {
+  from { background-color: #E0BBB3; }
+  to { background-color: #73B8BB; }
+}
+@keyframes color_change {
+  from { background-color: #E0BBB3; }
+  to { background-color: #73B8BB; }
+}
+
