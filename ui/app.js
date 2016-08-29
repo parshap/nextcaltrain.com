@@ -9,6 +9,7 @@ var Trip = require("./trip");
 var TwoColumn = require("./two-column");
 var Responsive = require("./responsive");
 var TwitterIcon = require("./icons/twitter");
+var GitHubIcon = require("./icons/github");
 var EnvelopeIcon = require("./icons/envelope");
 var leftPad = require("left-pad");
 var fs = require("fs");
@@ -20,6 +21,15 @@ var LAST_UPDATED_DATE = new Date(
   fs.readFileSync(__dirname + "/../LAST_UPDATED", "utf8")
     .replace(/\s+$/, "")
 );
+
+function getLocaleDateString(date) {
+  if (date.toLocaleDateString) {
+    return date.toLocaleDateString()
+  }
+  else {
+    return (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
+  }
+}
 
 module.exports = React.createClass({
   handleTripSelect: function(trip) {
@@ -74,7 +84,7 @@ module.exports = React.createClass({
   renderScheduleSection: function(props) {
     return el("div", {
       style: {
-        margin: "1.5rem 0 1.5rem 0",
+        margin: "1.5rem 0 0 0",
       },
       children: [
         el(RouteSelector, {
@@ -90,63 +100,6 @@ module.exports = React.createClass({
     })
   },
 
-  renderFooter: function() {
-    var updatedDate = LAST_UPDATED_DATE.getUTCFullYear() + "-" +
-      leftPad(String(LAST_UPDATED_DATE.getUTCMonth() + 1), 2, "0")
-    return el("div", {
-      style: {
-        "text-align": "right",
-        "font-size": "85%",
-        "opacity": "0.4",
-        "margin": "0.5rem 0 0 0",
-      },
-      children: [
-        el("time", {
-          style: {
-            "margin-right": "0.5em",
-            "border-bottom": "1px dashed",
-            "cursor": "help",
-          },
-          itemprop: "dateModified",
-          datetime: LAST_UPDATED_DATE.toISOString(),
-          title: "Last updated on " + updatedDate,
-          children: updatedDate,
-        }),
-        "•",
-        el("a", {
-          style: {
-            color: "inherit",
-            "text-decoration": "none",
-            "margin-left": "0.5em",
-            "margin-right": "0.5em",
-          },
-          href: "https://twitter.com/parshap",
-          children: TwitterIcon({
-            style: {
-              height: "1.1em",
-              "margin-bottom": "0.15em",
-              "vertical-align": "middle",
-            },
-          })
-        }),
-        el("a", {
-          style: {
-            color: "inherit",
-            "text-decoration": "none",
-          },
-          href: "mailto:parshap+nextcaltrain@gmail.com",
-          children: EnvelopeIcon({
-            style: {
-              height: "1em",
-              "margin-bottom": "0.15em",
-              "vertical-align": "middle",
-            },
-          })
-        }),
-      ],
-    });
-  },
-
   renderSchedule: function(props) {
     var schedule = this.props.state.get("schedule");
     if (schedule) {
@@ -157,6 +110,78 @@ module.exports = React.createClass({
         onTripUnselect: this.handleTripUnselect,
       }, props));
     }
+  },
+
+  renderFooter: function() {
+    var updatedDate = getLocaleDateString(LAST_UPDATED_DATE);
+    return el("div", {
+      style: {
+        "text-align": "right",
+        "font-size": "85%",
+        "opacity": "0.4",
+        "margin": "0.5rem 0",
+      },
+      children: [
+        el("a", {
+          href: "https://github.com/parshap/nextcaltrain.com",
+          title: "nextacltrain.com on GitHub",
+          style: {
+            color: "inherit",
+            "text-decoration": "none",
+          },
+          children: GitHubIcon({
+            style: {
+              height: "1.1em",
+              "margin-bottom": "0.15em",
+              "vertical-align": "middle",
+            },
+          })
+        }),
+        el("a", {
+          title: "parshap on Twitter",
+          href: "https://twitter.com/parshap",
+          style: {
+            color: "inherit",
+            "text-decoration": "none",
+            "margin-left": "0.5em",
+          },
+          children: TwitterIcon({
+            style: {
+              height: "1.1em",
+              "margin-bottom": "0.15em",
+              "vertical-align": "middle",
+            },
+          })
+        }),
+        el("a", {
+          title: "email parshap@gmail.com",
+          href: "mailto:parshap+nextcaltrain@gmail.com",
+          style: {
+            color: "inherit",
+            "text-decoration": "none",
+            "margin-left": "0.5em",
+          },
+          children: EnvelopeIcon({
+            style: {
+              height: "1em",
+              "margin-bottom": "0.15em",
+              "vertical-align": "middle",
+            },
+          })
+        }),
+        el("time", {
+          style: {
+            "margin-left": "0.5em",
+            "border-bottom": "1px dashed",
+            "cursor": "help",
+          },
+          itemprop: "dateModified",
+          datetime: LAST_UPDATED_DATE.toISOString(),
+          title: "Last updated",
+          children: updatedDate,
+        }),
+      ],
+    });
   },
 
   renderSelectedTrip: function() {
