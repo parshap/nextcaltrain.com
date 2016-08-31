@@ -52,3 +52,14 @@ body {
 .is-focused {
   outline: 0.25rem dotted hsl(220, 100%, 68%);
 }
+
+.small-width-with-padding {
+  max-width: 320px;
+}
+
+@media (max-width: 356px) {
+  .small-width-with-padding {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+}

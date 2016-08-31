@@ -115,11 +115,13 @@ module.exports = React.createClass({
   renderFooter: function() {
     var updatedDate = getLocaleDateString(LAST_UPDATED_DATE);
     return el("div", {
+      className: "small-width-with-padding",
       style: {
         "text-align": "right",
         "font-size": "85%",
         "opacity": "0.4",
-        "margin": "0.5rem 0",
+        "margin-top": "0.5rem",
+        "margin-bottom": "0.5rem",
       },
       children: [
         el("a", {
