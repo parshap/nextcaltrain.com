@@ -10,6 +10,7 @@ before_install:
   - npm install -g npm
   - |
     if [ -n "$DO_PERCY_SNAPSHOT" ]; then
+      rvm install ruby --latest
       gem install percy-cli
     fi
 script:
